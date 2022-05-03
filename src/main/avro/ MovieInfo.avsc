@@ -1,0 +1,31 @@
+{
+  "namespace": "cn.jiayeli.movieAnalyse.module",
+  "type": "record",
+  "name": "MovieModule",
+  "fields": [
+    {"name": "movieId", "type": "string"},
+    {"name": "movieTitle", "type": "string"},
+    {"name": "releaseDate", "type": "string"},
+    {"name": "videoReleaseDate", "type": "string"},
+    {"name": "IMDbURL", "type": "string"},
+    {"name": "unknown", "type": "string"},
+    {"name": "Action", "type": "string"},
+    {"name": "Adventure", "type": "string"},
+    {"name": "Animation", "type": "string"},
+    {"name": "Childrens", "type": "string"},
+    {"name": "Comedy", "type": "string"},
+    {"name": "Crime", "type": "string"},
+    {"name": "Documentary", "type": "string"},
+    {"name": "Drama", "type": "string"},
+    {"name": "Fantasy", "type": "string"},
+    {"name": "FilmNoir", "type": "string"},
+    {"name": "Horror", "type": "string"},
+    {"name": "Musical", "type": "string"},
+    {"name": "Mystery", "type": "string"},
+    {"name": "Romance", "type": "string"},
+    {"name": "SciFi", "type": "string"},
+    {"name": "Thriller", "type": "string"},
+    {"name": "War", "type": "string"},
+    {"name": "Western", "type": "string"}
+  ]
+}

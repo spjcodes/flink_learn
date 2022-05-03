@@ -1,0 +1,12 @@
+{
+  "namespace": "cn.jiayeli.movieAnalyse.module",
+  "type": "record",
+  "name": "UserModule",
+  "fields": [
+    {"name": "userId", "type": "string"},
+    {"name": "age", "type": "string"},
+    {"name": "gender", "type": "string"},
+    {"name": "occupation", "type": "string"},
+    {"name": "zipCode", "type": "string"}
+  ]
+}

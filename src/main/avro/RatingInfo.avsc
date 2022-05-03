@@ -1,0 +1,11 @@
+{
+  "namespace": "cn.jiayeli.movieAnalyse.module",
+  "type": "record",
+  "name": "RatingModule",
+  "fields": [
+    {"name":"userId", "type": "string"},
+    {"name":"itemId", "type": "string"},
+    {"name":"rating", "type": "int"},
+    {"name":"timestamp", "type": "string"}
+  ]
+}
