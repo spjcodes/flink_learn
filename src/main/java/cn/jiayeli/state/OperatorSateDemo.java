@@ -22,6 +22,7 @@ public class OperatorSateDemo {
         env.setParallelism(1);
         //指定存储目录
         env.getCheckpointConfig().setCheckpointStorage(URI.create("file:///home/kuro/workspace/bigdata/FLINK_LEARN/src/main/resources/ckdir/"));
+        env.setDefaultSavepointDirectory(URI.create("file:///home/kuro/workspace/bigdata/FLINK_LEARN/src/main/resources/ckdir/38528ec890b53e4b63fa15adbda00966/chk-8"));
         /**
          * RETAIN_ON_CANCELLATION
          * 在作业取消时保留外部化检查点。当您取消拥有的作业时，所有检查点状态都会保留。取消作业后，您必须手动删除检查点元数据和实际程序状态。

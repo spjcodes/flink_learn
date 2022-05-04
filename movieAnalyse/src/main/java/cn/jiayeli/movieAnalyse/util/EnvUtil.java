@@ -16,6 +16,7 @@ public class EnvUtil {
 
     static {
         Configuration conf = new Configuration();
+        conf.setInteger("rest.port", 10010);
         env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(conf);
     }
 

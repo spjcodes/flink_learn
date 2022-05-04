@@ -225,6 +225,12 @@
             <version>${slf4j.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.jiayeli</groupId>
+            <artifactId>movieAnalyse</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
       </dependencies>
 
 
