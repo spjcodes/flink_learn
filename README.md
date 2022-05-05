@@ -1,21 +1,30 @@
 # flink_learn
 
 *****
-**flink学习**
+>flink学习
 
 # dataStream
 ## state
 
 ## checkpoint
 
-## Consistent semantics
-### exactlyOnce
-### atLeastOnce
-### atMostOnce
+
 
 ## source
 
 ## sink
+
+## Consistent semantics
+### exactlyOnce
+### atLeastOnce
+### atMostOnce
+### E2EExactlyOnce
+
+
+## fault tolerance
+### checkpoint
+### savepoint
+### restartStrategy
 
 ## transformationOperator
 
@@ -32,3 +41,8 @@
 
 **********
 # table/sql
+
+
+
+*****************
+# flinkCDC
