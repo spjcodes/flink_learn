@@ -7,10 +7,13 @@ import cn.jiayeli.movieAnalyse.source.RatingInfoSourceFunction;
 import cn.jiayeli.movieAnalyse.util.EnvUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.Partitioner;
+import org.apache.flink.api.common.functions.RichFlatMapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.api.scala.typeutils.Types;
@@ -28,9 +31,11 @@ import org.codehaus.jackson.map.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MovieAnalyse {
 
@@ -138,6 +143,61 @@ public class MovieAnalyse {
                     public void processBroadcastElement(Tuple4<String, String, Long, String> value, BroadcastProcessFunction<Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>>.Context ctx, Collector<Tuple4<String, String, Long, String>> out) throws Exception {
                         ctx.getBroadcastState(moviBroadcastStateDesc).put(value.f0, value);
                     }
+
+                })
+                .keyBy(e -> e.f0)
+                .reduce((e, ee) -> Tuple4.of(e.f0, e.f1, e.f2, e.f3))
+                //topN
+                .flatMap(new RichFlatMapFunction<Tuple4<String, String, Long, String>, Tuple3<String, Long, String>>() {
+
+                    LinkedList<Tuple3<String, Long, String>> collect;
+
+                    @Override
+                    public void open(Configuration parameters) throws Exception {
+                        super.open(parameters);
+                        collect = new LinkedList<>();
+                    }
+
+                    @Override
+                    public void flatMap(Tuple4<String, String, Long, String> value, Collector<Tuple3<String, Long, String>> out) throws Exception {
+                        collect.add(Tuple3.of(value.f0, value.f2, value.f3));
+                        Stream<Tuple3<String, Long, String>> topN = new ArrayList<>(collect)
+                                .stream()
+                                .sorted(new Comparator<Tuple3<String, Long, String>>() {
+                                    @Override
+                                    public int compare(Tuple3<String, Long, String> e, Tuple3<String, Long, String> ee) {
+                                        return -e.f1.compareTo(ee.f1);
+                                    }
+                                })
+                                .limit(10);
+                        List<Tuple3<String, Long, String>> tops = topN.collect(Collectors.toList());
+
+                        collect.forEach(out::collect);
+                        if (this.collect.size() > 10) {
+                            this.collect.clear();
+                            this.collect.addAll(tops);
+                        }
+                    }
+
+                  /*
+                  //
+                    TreeMap<Tuple2<String, Long>, Tuple3<String, Long, String>> topN = null;
+                    @Override
+                    public void open(Configuration parameters) throws Exception {
+                        super.open(parameters);
+                        topN = new TreeMap<Tuple2<String, Long>, Tuple3<String, Long, String>>((e, ee) -> e.f1.compareTo(ee.f1));
+                    }
+
+                    @Override
+                    public void flatMap(Tuple4<String, String, Long, String> value, Collector<Tuple3<String, Long, String>> out) throws Exception {
+                        topN.put(Tuple2.of(value.f0, value.f2), Tuple3.of(value.f0, value.f2, value.f3));
+                        if (topN.size() > 10) {
+                            topN.pollLastEntry();
+                        }
+                        topN.forEach((k, v) -> out.collect(v));
+                    }*/
+
+
 
                 })
                 .print();

@@ -72,12 +72,12 @@ public class MovieInfoSourceFunction extends RichParallelSourceFunction<MovieMod
                     continue;
                 }
 
-            if (Math.abs(random.nextInt()) % 1000 == 0) {
+       /*     if (Math.abs(random.nextInt()) % 1000 == 0) {
                 logger.info("exception line :\t[" + line + "]");
                 logger.info("offset is:\t[" + fileOffset + "]");
                 throw new RuntimeException("========================== 0_o throw a exception by myself， current file offset is:\t" + fileOffset
                         + "\texception line :\t[" + line + "]");
-            }
+            }*/
 
                 TimeUnit.MILLISECONDS.sleep(Math.abs(random.nextInt()) % 200);
 
