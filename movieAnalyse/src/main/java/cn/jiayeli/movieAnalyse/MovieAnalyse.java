@@ -8,13 +8,29 @@ import cn.jiayeli.movieAnalyse.util.EnvUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
+import org.apache.flink.api.common.state.MapStateDescriptor;
+import org.apache.flink.api.common.typeinfo.TypeHint;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.api.scala.typeutils.Types;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.streaming.api.datastream.BroadcastStream;
+import org.apache.flink.streaming.api.datastream.IterativeStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.co.BroadcastProcessFunction;
+import org.apache.flink.streaming.api.functions.co.KeyedBroadcastProcessFunction;
+import org.apache.flink.streaming.api.functions.co.KeyedCoProcessFunction;
 import org.apache.flink.streaming.api.functions.co.RichCoMapFunction;
+import org.apache.flink.util.Collector;
+import org.codehaus.jackson.map.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MovieAnalyse {
 
@@ -24,9 +40,10 @@ public class MovieAnalyse {
     private static Logger logger = LoggerFactory.getLogger(MovieAnalyse.class.getName());
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-        env.setParallelism(20);
+        env.setParallelism(1);
+
         SingleOutputStreamOperator<Tuple4<String, String, Long, String>> movieDataStreamSource = env
                 .addSource(new MovieInfoSourceFunction())
                 .assignTimestampsAndWatermarks(
@@ -36,7 +53,7 @@ public class MovieAnalyse {
                 .map(new MapFunction<MovieModule, Tuple4<String, String, Long, String>>() {
                     @Override
                     public Tuple4<String, String, Long, String> map(MovieModule movie) throws Exception {
-                        return Tuple4.of(String.valueOf(movie.getMovieId()), String.valueOf(movie.getMovieTitle()), 0l, "");
+                        return Tuple4.of(String.valueOf(movie.getMovieId()), String.valueOf(movie.getMovieTitle()), 0L, "");
                     }
                 });
 
@@ -54,32 +71,76 @@ public class MovieAnalyse {
                     }
                 });
 
-        movieDataStreamSource
-            .map(new RichMapFunction<Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>>() {
-                @Override
-                public Tuple4<String, String, Long, String> map(Tuple4<String, String, Long, String> value) throws Exception {
-                    logger.info("task id" + getRuntimeContext().getTaskName() + "\t" + getRuntimeContext().getTaskNameWithSubtasks());
-                    return value;
-                }
-            })
-            .print();
-
-       movieDataStreamSource
+        /**
+         * movie:<movieid, title, 0, "">
+         * ratin:<movieid, userid, rating, time>
+         */
+      /* movieDataStreamSource
            .connect(ratingDataStreamSource)
            .keyBy(movie -> movie.f0, rating -> rating.f0)
-           .map(new RichCoMapFunction<Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>>() {
+           .process(new KeyedCoProcessFunction<String, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple3<String, String, Long>>() {
 
+               String movieId = null;
+               HashMap<String, Tuple4<String, String, Long, String>> movieInfos = new HashMap<>();
                @Override
-               public Tuple4<String, String, Long, String> map1(Tuple4<String, String, Long, String> value) throws Exception {
-                   return value;
+               public void processElement1(Tuple4<String, String, Long, String> value, KeyedCoProcessFunction<String, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple3<String, String, Long>>.Context ctx, Collector<Tuple3<String, String, Long>> out) throws Exception {
+                   movieId = ctx.getCurrentKey();
+                   movieInfos.put(movieId, value);
                }
 
                @Override
-               public Tuple4<String, String, Long, String> map2(Tuple4<String, String, Long, String> value) throws Exception {
-                   return value;
+               public void processElement2(Tuple4<String, String, Long, String> value, KeyedCoProcessFunction<String, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple3<String, String, Long>>.Context ctx, Collector<Tuple3<String, String, Long>> out) throws Exception {
+                   Tuple4<String, String, Long, String> movieInfo = movieInfos.get(value.f1);
+                   if (movieInfo != null) {
+                       out.collect(Tuple3.of(value.f0, movieInfo.f1, value.f2));
+                   }
                }
            })
-           .print();
+           .print();*/
+
+
+
+        MapStateDescriptor<String, Tuple4<String, String, Long, String>> moviBroadcastStateDesc
+                = new MapStateDescriptor<>("movieBroadcastDesc", Types.STRING(), TypeInformation.of(new TypeHint<Tuple4<String, String, Long, String>>() {
+        }));
+
+        HashMap<String, Tuple4<String, String, Long, String>> movieDataSet = new HashMap<>();
+
+        movieDataStreamSource.map(new MapFunction<Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>>() {
+
+            @Override
+            public Tuple4<String, String, Long, String> map(Tuple4<String, String, Long, String> value) throws Exception {
+                return value;
+            }
+
+        });
+
+        BroadcastStream<Tuple4<String, String, Long, String>> movieBroadcast = movieDataStreamSource.broadcast(moviBroadcastStateDesc);
+
+        ratingDataStreamSource
+                .connect(movieBroadcast)
+                .process(new BroadcastProcessFunction<Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>>() {
+
+                    //rating info cache
+                    HashMap<String, Tuple4<String, String, Long, String>> ratingInfos = new HashMap<>();
+
+                    @Override
+                    public void processElement(Tuple4<String, String, Long, String> rating, BroadcastProcessFunction<Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>>.ReadOnlyContext ctx, Collector<Tuple4<String, String, Long, String>> out) throws Exception {
+                        Tuple4<String, String, Long, String> movieInfo = ctx.getBroadcastState(moviBroadcastStateDesc).get(rating.f0);
+                        ratingInfos.put(rating.f0, rating);
+                        if (movieInfo != null && ratingInfos.get(movieInfo.f0) != null ) {
+                            out.collect(Tuple4.of(movieInfo == null ? null : movieInfo.f1, rating.f0, rating.f2, rating.f3));
+                            ratingInfos.remove(rating.f0);
+                        }
+                    }
+
+                    @Override
+                    public void processBroadcastElement(Tuple4<String, String, Long, String> value, BroadcastProcessFunction<Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>, Tuple4<String, String, Long, String>>.Context ctx, Collector<Tuple4<String, String, Long, String>> out) throws Exception {
+                        ctx.getBroadcastState(moviBroadcastStateDesc).put(value.f0, value);
+                    }
+
+                })
+                .print();
 
         try {
             env.execute("movie rating analyse");

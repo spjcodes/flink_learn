@@ -79,7 +79,7 @@ public class MovieInfoSourceFunction extends RichParallelSourceFunction<MovieMod
                         + "\texception line :\t[" + line + "]");
             }
 
-                TimeUnit.SECONDS.sleep(Math.abs(random.nextInt()) % 5);
+                TimeUnit.MILLISECONDS.sleep(Math.abs(random.nextInt()) % 200);
 
                 synchronized (checkpointLock) {
                     MovieModule movieModule = new MovieModule(
