@@ -53,7 +53,7 @@ public class TopN {
                     .reduce((e, ee) -> Tuple2.of(e.f0, e.f1+ee.f1))
                     .process(new ProcessFunction<Tuple2<String, Long>, Tuple2<String, Long>>() {
 
-                        transient TreeMap<Long, Tuple2<String, Long>> treeMap = null;
+//                        transient TreeMap<Long, Tuple2<String, Long>> treeMap = null;
                         HashMap<String, Tuple2<String, Long>> map = new HashMap<>();
 
                         @Override
@@ -86,6 +86,23 @@ public class TopN {
                                 treeMap.pollLastEntry();
                             }
                             treeMap.forEach((k, v) -> out.collect(v));*/
+                            map.put(value.f0, value);
+                            /*Arrays.stream(map.entrySet().toArray()).sorted(new Comparator<Tuple2<String, Long>>() {
+                                @Override
+                                public int compare(Tuple2<String, Long> e, Tuple2<String, Long> ee) {
+                                    return -e.f1.compareTo(ee.f1);
+                                }
+                            });*/
+                            List<Tuple2<String, Long>> list = map.values().stream().sorted((e, ee) -> -e.f1.compareTo(ee.f1)).collect(Collectors.toList());
+                            if (list.size() > 10) {
+                                list.remove(10);
+                            }
+                            map.clear();
+                            list.forEach(e -> {
+                                out.collect(e);
+                                map.put(e.f0, e);
+                            });
+                           
                         }
 
 
