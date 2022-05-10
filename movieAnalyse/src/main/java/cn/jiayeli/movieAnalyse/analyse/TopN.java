@@ -3,34 +3,23 @@ package cn.jiayeli.movieAnalyse.analyse;
 import cn.jiayeli.movieAnalyse.functions.impl.TopNStateReduceFunction;
 import cn.jiayeli.movieAnalyse.module.RatingModule;
 import cn.jiayeli.movieAnalyse.source.RatingInfoSourceFunction;
+import cn.jiayeli.movieAnalyse.util.DataParseUtil;
 import cn.jiayeli.movieAnalyse.util.EnvUtil;
 import com.mysql.cj.jdbc.Driver;
-import org.apache.commons.math3.fitting.leastsquares.EvaluationRmsChecker;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.RichMapFunction;
-import org.apache.flink.api.common.functions.RichReduceFunction;
-import org.apache.flink.api.common.state.ListState;
-import org.apache.flink.api.common.state.ListStateDescriptor;
-import org.apache.flink.api.common.state.MapState;
-import org.apache.flink.api.common.state.MapStateDescriptor;
-import org.apache.flink.api.common.typeinfo.TypeHint;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.api.scala.typeutils.Types;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.util.Collector;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -39,7 +28,7 @@ import java.util.stream.Collectors;
 public class TopN {
 
     private static StreamExecutionEnvironment env = EnvUtil.get();
-    private static final HashMap<String, Tuple3<String, String, String>> movieInfoDataSet = getMovieInfoDataSet("src/main/resources/dataSet/u.item");
+    private static final HashMap<String, Tuple3<String, String, String>> movieInfoDataSet = DataParseUtil.getMovieInfoDataSet("src/main/resources/dataSet/u.item");
 
 
 
@@ -125,40 +114,7 @@ public class TopN {
 
     }
 
-    public static HashMap<String, Tuple3<String, String, String>> getMovieInfoDataSet(String fileName)  {
 
-        FileReader fileReader = null;
-        BufferedReader bufferedReader = null;
-        HashMap<String, Tuple3<String, String, String>> movieInfos = new HashMap<>();
-
-        try {
-            fileReader = new FileReader(fileName);
-            bufferedReader = new BufferedReader(fileReader);
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] movieArray = line.split("\\|");
-                if (movieArray.length == 24) {
-                    movieInfos.put(movieArray[0], Tuple3.of(movieArray[0], movieArray[1], movieArray[4]));
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-                if (fileReader != null) {
-                    fileReader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return movieInfos;
-    }
 
 
 }
