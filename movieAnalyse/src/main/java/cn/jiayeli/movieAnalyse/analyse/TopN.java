@@ -1,18 +1,32 @@
 package cn.jiayeli.movieAnalyse.analyse;
 
+import cn.jiayeli.movieAnalyse.functions.impl.TopNStateReduceFunction;
 import cn.jiayeli.movieAnalyse.module.RatingModule;
 import cn.jiayeli.movieAnalyse.source.RatingInfoSourceFunction;
 import cn.jiayeli.movieAnalyse.util.EnvUtil;
+import com.mysql.cj.jdbc.Driver;
 import org.apache.commons.math3.fitting.leastsquares.EvaluationRmsChecker;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.RichMapFunction;
+import org.apache.flink.api.common.functions.RichReduceFunction;
+import org.apache.flink.api.common.state.ListState;
+import org.apache.flink.api.common.state.ListStateDescriptor;
+import org.apache.flink.api.common.state.MapState;
+import org.apache.flink.api.common.state.MapStateDescriptor;
+import org.apache.flink.api.common.typeinfo.TypeHint;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
+import org.apache.flink.api.scala.typeutils.Types;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
+import org.apache.flink.connector.jdbc.JdbcSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.util.Collector;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
@@ -30,6 +44,8 @@ public class TopN {
 
 
     public static void main(String[] args) {
+
+        Logger logger = LoggerFactory.getLogger(TopN.class.getName());
 
         try {
             env.setParallelism(40);
@@ -50,7 +66,7 @@ public class TopN {
                         }
                     })
                     .keyBy(e -> e.f0)
-                    .reduce((e, ee) -> Tuple2.of(e.f0, e.f1+ee.f1))
+                    .reduce(new TopNStateReduceFunction())
                     .process(new ProcessFunction<Tuple2<String, Long>, Tuple2<String, Long>>() {
 
 //                        transient TreeMap<Long, Tuple2<String, Long>> treeMap = null;
@@ -59,12 +75,7 @@ public class TopN {
                         @Override
                         public void open(Configuration parameters) throws Exception {
                             super.open(parameters);
-                           /* treeMap = new TreeMap<>(new Comparator<Long>() {
-                                @Override
-                                public int compare(Long e, Long ee) {
-                                    return e > ee ? -1 : 1;
-                                }
-                            });*/
+
                         }
 
 
@@ -76,23 +87,7 @@ public class TopN {
                          */
                         @Override
                         public void processElement(Tuple2<String, Long> value, ProcessFunction<Tuple2<String, Long>, Tuple2<String, Long>>.Context ctx, Collector<Tuple2<String, Long>> out) throws Exception {
-                           /* treeMap.values().forEach(e -> {
-                                if (e.f0.equals(value.f0)) {
-                                    treeMap.remove(e.f1);
-                                }
-                            });
-                            treeMap.put(value.f1, value);
-                            if (treeMap.size() > 10) {
-                                treeMap.pollLastEntry();
-                            }
-                            treeMap.forEach((k, v) -> out.collect(v));*/
                             map.put(value.f0, value);
-                            /*Arrays.stream(map.entrySet().toArray()).sorted(new Comparator<Tuple2<String, Long>>() {
-                                @Override
-                                public int compare(Tuple2<String, Long> e, Tuple2<String, Long> ee) {
-                                    return -e.f1.compareTo(ee.f1);
-                                }
-                            });*/
                             List<Tuple2<String, Long>> list = map.values().stream().sorted((e, ee) -> -e.f1.compareTo(ee.f1)).collect(Collectors.toList());
                             if (list.size() > 10) {
                                 list.remove(10);
@@ -100,15 +95,27 @@ public class TopN {
                             map.clear();
                             list.forEach(e -> {
                                 out.collect(e);
+                                logger.info("collect topN:\t" + e.toString());
                                 map.put(e.f0, e);
                             });
                            
                         }
-
-
-
                     })
-                    .print();
+                    .addSink(JdbcSink.sink(
+                            "INSERT INTO movieInfo.topN (movieName, ratings) VALUES(?, ?) on duplicate key update movieName = ?, ratings = ?",
+                            (ps, e) -> {
+                                ps.setString(1, e.f0);
+                                ps.setLong(2, e.f1);
+                                ps.setString(3, e.f0);
+                                ps.setLong(4, e.f1);
+                            },
+                            new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
+                                    .withUrl("jdbc:mysql://jiayeli:3306/movieInfo")
+                                    .withUsername("kuro")
+                                    .withPassword("kuro.123")
+                                    .withDriverName(Driver.class.getName())
+                                    .build()));
+//                    .print();
 
 
             env.execute();
@@ -118,7 +125,7 @@ public class TopN {
 
     }
 
-    public static HashMap<String, Tuple3<String, String, String>> getMovieInfoDataSet(String fileName) {
+    public static HashMap<String, Tuple3<String, String, String>> getMovieInfoDataSet(String fileName)  {
 
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
@@ -137,6 +144,17 @@ public class TopN {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (fileReader != null) {
+                    fileReader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return movieInfos;
