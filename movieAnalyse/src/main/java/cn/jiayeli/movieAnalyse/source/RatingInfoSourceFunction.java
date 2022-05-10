@@ -76,9 +76,9 @@ public class RatingInfoSourceFunction extends RichParallelSourceFunction<RatingM
 
             int randomNum = Math.abs(random.nextInt());
 
-            if (randomNum % 1000 == 0) {
+            /*if (randomNum % 1000 == 0) {
                 throw new RuntimeException("throw a exception by myself, current process line is :\t[" + line + "]\toffset:\t" + fileOffset);
-            }
+            }*/
 
             TimeUnit.MILLISECONDS.sleep(randomNum%500);
 

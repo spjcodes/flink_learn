@@ -25,6 +25,8 @@ public class DisFileCacheDemo {
          * 文件可以是本地文件（将通过 BlobServer 分发），也可以是分布式文件系统中的文件。
          * 如果需要，运行时会将文件临时复制到本地缓存。
          */
+
+        // 1. register
         env.registerCachedFile("file:////home/kuro/workspace/bigdata/FLINK_LEARN/src/main/resources/dataSet/movieInfo.data", distributCacheFile, false);
 
         env.fromCollection(Arrays.asList(Tuple2.of("1", 4.0F), Tuple2.of("2", 4.5F), Tuple2.of("3", 5.0F)))
@@ -33,13 +35,16 @@ public class DisFileCacheDemo {
                     File file = null;
                     FileReader fileReader = null;
                     HashMap<String, String> movieInfo = new HashMap<>();
+                    BufferedReader bufferedReader = null;
 
                     @Override
                     public void open(Configuration parameters) throws Exception {
                         super.open(parameters);
+
+        //2. get
                         File file = getRuntimeContext().getDistributedCache().getFile(distributCacheFile);
                         fileReader = new FileReader(file);
-                        BufferedReader bufferedReader = new BufferedReader(fileReader);
+                        bufferedReader = new BufferedReader(fileReader);
                         String line = null;
                         String[] split = null;
                         while ((line = bufferedReader.readLine()) != null) {
@@ -51,6 +56,17 @@ public class DisFileCacheDemo {
                     @Override
                     public void flatMap(Tuple2<String, Float> value, Collector<Tuple2<String, Float>> out) throws Exception {
                       out.collect(Tuple2.of(movieInfo.get(value.f0), value.f1));
+                    }
+
+                    @Override
+                    public void close() throws Exception {
+                        super.close();
+                        if (bufferedReader != null) {
+                            bufferedReader.close();
+                        }
+                        if (fileReader != null) {
+                            fileReader.close();
+                        }
                     }
                 })
                 .print();
