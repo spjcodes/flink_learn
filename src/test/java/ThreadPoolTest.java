@@ -1,6 +1,9 @@
 import cn.jiayeli.movieAnalyse.module.MovieModule;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -41,4 +44,7 @@ public class ThreadPoolTest {
         System.out.println(new MovieModule().getReleaseDate() == null);
 
     }
+
+
+
 }

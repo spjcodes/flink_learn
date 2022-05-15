@@ -80,7 +80,7 @@ public class RatingInfoSourceFunction extends RichParallelSourceFunction<RatingM
                 throw new RuntimeException("throw a exception by myself, current process line is :\t[" + line + "]\toffset:\t" + fileOffset);
             }
 
-            TimeUnit.MILLISECONDS.sleep(randomNum%500);
+            TimeUnit.MILLISECONDS.sleep(randomNum%10000);
 
             synchronized (checkpointLock) {
                 RatingModule ratingModule = new RatingModule(

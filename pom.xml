@@ -229,9 +229,11 @@
             <groupId>cn.jiayeli</groupId>
             <artifactId>movieAnalyse</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
-      </dependencies>
+
+    </dependencies>
 
 
     <build>
@@ -248,8 +250,9 @@
                             <goal>schema</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
-                            <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+                            <sourceDirectory>movieAnalyse/src/main/avro</sourceDirectory>
+                            <outputDirectory>${project.basedir}/movieAnalyse/src/main/java/</outputDirectory>
+                            <stringType>String</stringType>
                         </configuration>
                     </execution>
                 </executions>
