@@ -3,8 +3,8 @@ use movieInfo;
 show tables;
 
 -- 电影信息表
-drop table if exists movies;
-create table if not exists movies (
+drop table if exists movieInfo.movies;
+create table if not exists movieInfo.movies (
     movieId bigint(10) primary key
     ,movieTitle        varchar(128)
     ,releaseDate       varchar(26)
@@ -30,4 +30,27 @@ create table if not exists movies (
     ,War               varchar(24)
     ,Western           varchar(24)
     );
+
+-- 用户电影评分信息表
+drop table if exists movieInfo.userMovieRatingInfo;
+CREATE TABLE `userMovieRatingInfo` (
+    `userId` varchar(10) NOT NULL,
+    `age` varchar(3) DEFAULT NULL,
+    `gender` varchar(1) DEFAULT NULL,
+    `occupation` varchar(20) DEFAULT NULL,
+    `zipCode` varchar(10) DEFAULT NULL,
+    `movieId` varchar(10) NOT NULL,
+    `movieTitle` varchar(128) DEFAULT NULL,
+    `releaseDate` varchar(20) DEFAULT NULL,
+    `videoReleaseDate` varchar(20) DEFAULT NULL,
+    `IMDbURL` varchar(256) DEFAULT NULL,
+    `type` varchar(180) DEFAULT NULL,
+    `rating` int DEFAULT NULL,
+    `timestamp` varchar(14) DEFAULT NULL,
+    updateTime timestamp default CURRENT_TIMESTAMP,
+    createTime timestamp default CURRENT_TIMESTAMP,
+    PRIMARY KEY (`userId`, `movieId`)
+);
+
+
 

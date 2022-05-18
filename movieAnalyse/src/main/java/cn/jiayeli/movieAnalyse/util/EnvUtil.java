@@ -41,7 +41,8 @@ public class EnvUtil {
         env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
         env.getCheckpointConfig().setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
         env.setStateBackend(new EmbeddedRocksDBStateBackend());
-        env.getCheckpointConfig().setCheckpointStorage(URI.create("file:///tmp/ckdir/"));
+//        env.getCheckpointConfig().setCheckpointStorage(URI.create("file:///tmp/ckdir/"));
+        env.getCheckpointConfig().setCheckpointStorage(URI.create("file:///home/kuro/workspace/bigdata/FLINK_LEARN/src/main/resources/ckdir/"));
         env.getCheckpointConfig().setCheckpointInterval(1000 * 60 * 5);
         env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3, Time.seconds(5)));
 

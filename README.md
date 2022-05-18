@@ -21,14 +21,47 @@ triggerCheckpoint会通过触发taskmanager的checkpoint，其会在source中插
 
 ---
 ## source
-SourceFunction {
-    
-}
+SourceFunction
 ParallelSourceFunction
 RichParallelSourceFunction
 
+
+
 ---
 ## sink
+### JDBCSink
+>注意该连接器目前还 不是 二进制发行版的一部分,需要添加依赖。
+已创建的 JDBC Sink 能够保证至少一次的语义。 更有效的精确执行一次可以通过 upsert 语句或幂等更新实现。
+
+```xml
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-connector-jdbc</artifactId>
+    <version>1.15.0</version>
+</dependency>
+```
+
+**用法示例**：
+
+```java
+StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+env
+.fromElements(...)
+.addSink(JdbcSink.sink(
+"insert into books (id, title, author, price, qty) values (?,?,?,?,?)",
+(ps, t) -> {
+ps.setInt(1, t.id);
+ps.setString(2, t.title);
+ps.setString(3, t.author);
+ps.setDouble(4, t.price);
+ps.setInt(5, t.qty);
+},
+new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
+.withUrl(getDbMetadata().getUrl())
+.withDriverName(getDbMetadata().getDriverClass())
+.build()));
+env.execute();
+```
 
 ---
 ## Consistent semantics

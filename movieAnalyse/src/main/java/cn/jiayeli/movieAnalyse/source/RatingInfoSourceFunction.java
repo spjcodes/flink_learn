@@ -52,6 +52,8 @@ public class RatingInfoSourceFunction extends RichParallelSourceFunction<RatingM
 
         String line = null;
 
+        long count = 0;
+
         Random random = new Random();
 
         if (fileOffset != 0) {
@@ -92,7 +94,7 @@ public class RatingInfoSourceFunction extends RichParallelSourceFunction<RatingM
                 ctx.collect(ratingModule);
                 fileOffset += line.length() + 1;
                 fileOffsetListState.update(List.of(fileOffset));
-                logger.info("output ratingModule:\t[" + ratingModule + "]\toffset__" + fileOffset);
+                logger.info("count= " + ++count + "ts: " + System.currentTimeMillis() + "output ratingModule:\t[" + ratingModule + "]\toffset__" + fileOffset);
             }
 
         }
