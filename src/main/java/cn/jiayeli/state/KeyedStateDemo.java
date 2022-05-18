@@ -12,6 +12,8 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
+import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
+import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.apache.flink.util.Collector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +25,9 @@ public class KeyedStateDemo {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(new Configuration());
         env.setParallelism(1);
         SingleOutputStreamOperator<Tuple2<String, String>> sourceTuple2 = SockTuple2Source.getTuple2String(env);
-        Logger logger = LoggerFactory.getLogger(KeyedStateDemo.class.getName());
-
-
+        Logger logger  LoggerFactory.getLogger(KeyedStateDemo.class.getName());
+        env.addSource(new SourceFunction<Object>() {
+        })
         KeyedStream<Tuple2<String, String>, String> tuple2StringKeyedStream = sourceTuple2.keyBy(e -> e.f0);
         tuple2StringKeyedStream
                 .filter(new RichFilterFunction<Tuple2<String, String>>() {
