@@ -12,6 +12,7 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
+import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
@@ -98,6 +99,10 @@ public class TopN {
                                 ps.setString(3, e.f0);
                                 ps.setLong(4, e.f1);
                             },
+                            JdbcExecutionOptions.builder()
+                                    .withBatchSize(2)
+                                    .withBatchIntervalMs(100)
+                                    .build(),
                             new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
                                     .withUrl("jdbc:mysql://jiayeli:3306/movieInfo")
                                     .withUsername("kuro")

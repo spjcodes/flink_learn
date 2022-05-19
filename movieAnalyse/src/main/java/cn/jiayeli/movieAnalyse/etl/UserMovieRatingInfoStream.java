@@ -1,4 +1,4 @@
-package cn.jiayeli.movieAnalyse.analyse;
+package cn.jiayeli.movieAnalyse.etl;
 
 import cn.jiayeli.movieAnalyse.module.MovieModule;
 import cn.jiayeli.movieAnalyse.module.RatingModule;
@@ -15,6 +15,7 @@ import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
+import org.apache.flink.connector.jdbc.JdbcExecutionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
@@ -81,13 +82,6 @@ public class UserMovieRatingInfoStream {
                 });
     }
 
-    public static void main(String[] args) throws Exception {
-
-        StreamExecutionEnvironment env = EnvUtil.get();
-        new UserMovieRatingInfoStream(env).sink2kafka();
-        env.execute();
-    }
-
     public void sink2kafka() {
         KafkaSink<UserMovieRatingInfoModule> sink = KafkaSink.<UserMovieRatingInfoModule>builder()
                 .setBootstrapServers("node02:9092,node03:9092")
@@ -129,7 +123,7 @@ public class UserMovieRatingInfoStream {
                                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" +
                                 "on duplicate key update " +
                                 " userId = ?,  age = ?,  gender = ?,  occupation = ?,  zipCode = ?,  movieId = ?,  movieTitle = ?,  releaseDate = ?," +
-                                "videoReleaseDate = ?, IMDbURL = ?, `type` = ?, rating = ?, `timestamp` = ?",
+                                "videoReleaseDate = ?, IMDbURL = ?, `type` = ?, rating = ?, `timestamp` = ?, updateTime = now()",
                         (ps, umr) -> {
                             ps.setString(1, umr.getUserId());
                             ps.setString(2, umr.getAge());
@@ -158,6 +152,12 @@ public class UserMovieRatingInfoStream {
                             ps.setInt(25, umr.getRating());
                             ps.setString(26, umr.getTimestamp());
                         },
+                        JdbcExecutionOptions
+                                .builder()
+                                .withBatchSize(5)
+                                .withBatchIntervalMs(500)
+                                .withMaxRetries(5)
+                                .build(),
                         new JdbcConnectionOptions
                                 .JdbcConnectionOptionsBuilder()
                                 .withUrl("jdbc:mysql://jiayeli:3306/movieInfo")

@@ -25,9 +25,8 @@ public class KeyedStateDemo {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(new Configuration());
         env.setParallelism(1);
         SingleOutputStreamOperator<Tuple2<String, String>> sourceTuple2 = SockTuple2Source.getTuple2String(env);
-        Logger logger  LoggerFactory.getLogger(KeyedStateDemo.class.getName());
-        env.addSource(new SourceFunction<Object>() {
-        })
+        Logger logger = LoggerFactory.getLogger(KeyedStateDemo.class.getName());
+
         KeyedStream<Tuple2<String, String>, String> tuple2StringKeyedStream = sourceTuple2.keyBy(e -> e.f0);
         tuple2StringKeyedStream
                 .filter(new RichFilterFunction<Tuple2<String, String>>() {

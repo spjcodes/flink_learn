@@ -1,5 +1,6 @@
 package cn.jiayeli.movieAnalyse.analyse;
 
+import cn.jiayeli.movieAnalyse.etl.UserMovieRatingInfoStream;
 import cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule;
 import cn.jiayeli.movieAnalyse.schema.UserMovieRatingAvroSchema;
 import cn.jiayeli.movieAnalyse.util.EnvUtil;
@@ -8,6 +9,7 @@ import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichReduceFunction;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.slf4j.Logger;
@@ -27,6 +29,7 @@ public class Analyse {
                 .setBootstrapServers("node02:9092,node03:9092")
                 .setGroupId("MLG1")
                 .setValueOnlyDeserializer(new UserMovieRatingAvroSchema())
+                .setStartingOffsets(OffsetsInitializer.latest())
                 .build();
 
         KafkaSource<UserMovieRatingInfoModule> userMovieRatingSourceByBI = KafkaSource

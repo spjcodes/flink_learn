@@ -50,16 +50,23 @@ env
 .addSink(JdbcSink.sink(
 "insert into books (id, title, author, price, qty) values (?,?,?,?,?)",
 (ps, t) -> {
-ps.setInt(1, t.id);
-ps.setString(2, t.title);
-ps.setString(3, t.author);
-ps.setDouble(4, t.price);
-ps.setInt(5, t.qty);
+    ps.setInt(1, t.id);
+    ps.setString(2, t.title);
+    ps.setString(3, t.author);
+    ps.setDouble(4, t.price);
+    ps.setInt(5, t.qty);
 },
+JdbcExecutionOptions
+    .builder()
+    .withBatchSize(5)
+    .withBatchIntervalMs(500)
+    .withMaxRetries(5)
+    .build(),
 new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
-.withUrl(getDbMetadata().getUrl())
-.withDriverName(getDbMetadata().getDriverClass())
-.build()));
+    .withUrl(getDbMetadata().getUrl())
+    .withDriverName(getDbMetadata().getDriverClass())
+    .build()));
+
 env.execute();
 ```
 
