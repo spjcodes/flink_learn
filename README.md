@@ -21,10 +21,39 @@ triggerCheckpoint会通过触发taskmanager的checkpoint，其会在source中插
 
 ---
 ## source
+**原理**
+[FLIP-27](https://cwiki.apache.org/confluence/display/FLINK/FLIP-27%3A+Refactor+Source+Interface)
 SourceFunction
 ParallelSourceFunction
 RichParallelSourceFunction
+<br/>
+---
+**usage case**:
+### kafkaSource
+```xml
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-connector-kafka</artifactId>
+    <version>1.15.0</version>
+</dependency>
+<!--如果使用 Kafka source，flink-connector-base 也需要包含在依赖中-->
+<dependency>
+    <groupId>org.apache.flink</groupId>
+    <artifactId>flink-connector-base</artifactId>
+    <version>1.15.0</version>
+</dependency>
+```
+```java
+KafkaSource<String> source = KafkaSource.<String>builder()
+    .setBootstrapServers(brokers)
+    .setTopics("input-topic")
+    .setGroupId("my-group")
+    .setStartingOffsets(OffsetsInitializer.earliest())
+    .setValueOnlyDeserializer(new SimpleStringSchema())
+    .build();
 
+env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
+```
 
 
 ---
@@ -69,6 +98,8 @@ new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
 
 env.execute();
 ```
+
+
 
 ---
 ## Consistent semantics

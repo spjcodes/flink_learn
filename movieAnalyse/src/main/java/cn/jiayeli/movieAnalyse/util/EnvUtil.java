@@ -4,6 +4,8 @@ import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.common.time.Time;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;
+import org.apache.flink.contrib.streaming.state.RocksDBOptionsFactory;
+import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -25,7 +27,7 @@ public class EnvUtil {
 //        env.setParallelism(1);
 //        env.setStateBackend(new RocksDBStateBackend("file:///home/kuro/workspace/bigdata/FLINK_LEARN/src/main/resources/ckdir/"));
         /**
-         * RocksDBStateBackend 已弃用，取而代之的是 EmbeddedRocksDBStateBackend 和 org.apache.flink.runtime.cn.jiayeli.state.storage.FileSystemCheckpointStorage。
+         * RocksDBStateBackend 已弃用，取而代之的是 EmbeddedRocksDBStateBackend 和 org.apache.flink.runtime.state.storage.FileSystemCheckpointStorage。
          * 此更改不会影响 Job 的运行时特性，只是一个 API 更改，以帮助更好地传达 Flink 将本地状态存储与容错分离的方式。
          * 可以在不丢失状态的情况下升级作业。
          * 如果通过 StreamExecutionEnvironment 配置您的状态后端，请进行以下更改。
@@ -38,11 +40,16 @@ public class EnvUtil {
          * 为了防止机器丢失，检查点会拍摄 RocksDB 数据库的快照，并将该快照保留在文件系统（默认情况下）或另一个可配置的状态后端中。
          * RocksDB 实例的行为可以通过使用 setPredefinedOptions(PredefinedOptions) 和 setRocksDBOptions(RocksDBOptionsFactory) 方法设置 RocksDB 选项来参数化。
          */
+
         env.getCheckpointConfig().setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
         env.getCheckpointConfig().setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
-        env.setStateBackend(new EmbeddedRocksDBStateBackend());
+        //stateBackend
+        EmbeddedRocksDBStateBackend rocksDBStateBackend = new EmbeddedRocksDBStateBackend();
+        rocksDBStateBackend.setDbStoragePath("file:///home/kuro/workspace/bigdata/FLINK_LEARN/src/main/resources/rocksDBStorage/");
+        env.setStateBackend(rocksDBStateBackend);
 //        env.getCheckpointConfig().setCheckpointStorage(URI.create("file:///tmp/ckdir/"));
         env.getCheckpointConfig().setCheckpointStorage(URI.create("file:///home/kuro/workspace/bigdata/FLINK_LEARN/src/main/resources/ckdir/"));
+
         env.getCheckpointConfig().setCheckpointInterval(1000 * 60 * 5);
         env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3, Time.seconds(5)));
 
