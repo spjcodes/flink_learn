@@ -15,6 +15,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class Analyse {
 
     public static void main(String[] args) throws Exception {
@@ -51,7 +52,7 @@ public class Analyse {
         UserMovieRatingInfoStream userInfoStream = new UserMovieRatingInfoStream(env);
 
         userInfoStream.sink2kafka();
-        //可写入hive或clickhouse，doris等进行分析，此处写入mysql方便进行结果认证
+        //可写入hive或clickhouse，doris等进行adhoc分析，此处写入mysql方便进行结果认证
         userInfoStream.sink2Mysql();
 
         /*env.fromSource(userMovieRatingSourceByBI, WatermarkStrategy.forMonotonousTimestamps(), "userMovieRatingKafkaSourceForBI")
@@ -91,6 +92,7 @@ public class Analyse {
                     }
                 })
                 .print();
+
 
         env.execute();
     }

@@ -28,7 +28,7 @@ create table if not exists movieInfo.userMovieRatingInfo(
 ```
 
 # analyse
-## data example
+## data demo
 ```json
 {
   "userId":"178",
@@ -55,10 +55,37 @@ select
   count(rating) as totalRating
 from movieInfo.userMovieRatingInfo
 group by movieId, movieTitle, rating
-order by totalRating
+order by totalRating limit 10;
 ;
 ```
 ## 最受欢迎的电影分类TOP10
+```hiveql
+create table userMovieRatingInfo(
+                                    userId string
+    ,age    string
+    ,gender string
+    ,occupation      string
+    ,zipCode         string
+    ,movieId         string
+    ,movieTitle      string
+    ,releaseDate     string
+    ,videoReleaseDate  string
+    ,IMDbURL           string
+    ,type              string
+    ,rating            int
+    ,`timestamp`         string
+)
+    ROW FORMAT DELIMITED FIELDS TERMINATED BY '||'
+    STORED AS TEXTFILE;
+
+select
+  typestb.types
+  sum(rating) over (partition by types) totalRating
+ffrom movieinfo.usermovieratinginfo 
+      lateral view explode(split(type, "|")) typestb as types
+order by totalRating desc limit 10;
+;
+```
 
 ## 发行当年最受欢迎的电影及类别TOP10
 
