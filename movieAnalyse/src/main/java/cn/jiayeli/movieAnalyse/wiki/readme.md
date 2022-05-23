@@ -60,8 +60,9 @@ order by totalRating limit 10;
 ```
 ## 最受欢迎的电影分类TOP10
 ```hiveql
+drop table if exists userMovieRatingInfo;
 create table userMovieRatingInfo(
-                                    userId string
+     userId string
     ,age    string
     ,gender string
     ,occupation      string
@@ -74,14 +75,24 @@ create table userMovieRatingInfo(
     ,type              string
     ,rating            int
     ,`timestamp`         string
+    ,`updateTime` string
+    ,`createTime` string
 )
-    ROW FORMAT DELIMITED FIELDS TERMINATED BY '||'
-    STORED AS TEXTFILE;
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+tblproperties("skip.header.line.count"="1")
+;
+
+select types 
+     , sum(rating) over (partition by types) totalrating 
+from usermovieratinginfo 
+    lateral view explode(split(type, "|")) typestb as types
+;
 
 select
-  typestb.types
-  sum(rating) over (partition by types) totalRating
-ffrom movieinfo.usermovieratinginfo 
+   typestb.types
+  ,sum(rating) over (partition by types) totalRating
+sffrom movieinfo.usermovieratinginfo 
       lateral view explode(split(type, "|")) typestb as types
 order by totalRating desc limit 10;
 ;
