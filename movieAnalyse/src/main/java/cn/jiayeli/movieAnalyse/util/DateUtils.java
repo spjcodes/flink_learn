@@ -19,10 +19,8 @@ public class DateUtils {
      */
     public static String dataFormatByEnglish(String dateStr){
         if (dateStr.isBlank()) {
-            return null;
+            return "";
         }
-
-        System.out.println(simpleDateFormat.format(new Date()));
         long time = 0;
         try {
             time = simpleDateFormat.parse(dateStr).getTime();

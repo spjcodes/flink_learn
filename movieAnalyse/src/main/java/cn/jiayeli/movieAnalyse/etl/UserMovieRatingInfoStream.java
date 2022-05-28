@@ -8,7 +8,6 @@ import cn.jiayeli.movieAnalyse.schema.UserMovieRatingAvroSchema;
 import cn.jiayeli.movieAnalyse.source.RatingInfoSourceFunction;
 import cn.jiayeli.movieAnalyse.util.DataParseUtil;
 import cn.jiayeli.movieAnalyse.util.DateUtils;
-import cn.jiayeli.movieAnalyse.util.EnvUtil;
 import com.mysql.cj.jdbc.Driver;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
@@ -146,8 +145,8 @@ public class UserMovieRatingInfoStream {
                             ps.setString(18, umr.getZipCode());
                             ps.setString(19, umr.getMovieId());
                             ps.setString(20, umr.getMovieTitle());
-                            ps.setString(21, DateUtils.dataFormatByEnglish(umr.getReleaseDate()));
-                            ps.setString(22, DateUtils.dataFormatByEnglish(umr.getVideoReleaseDate()));
+                            ps.setString(21, umr.getReleaseDate());
+                            ps.setString(22, umr.getVideoReleaseDate());
                             ps.setString(23, umr.getIMDbURL());
                             ps.setString(24, umr.getType());
                             ps.setInt(25, umr.getRating());
@@ -182,8 +181,8 @@ public class UserMovieRatingInfoStream {
         record.setUserId(value.f0.getUserId().toString());
         record.setZipCode(value.f0.getZipCode().toString());
         record.setMovieTitle(value.f2.getMovieTitle());
-        record.setReleaseDate(value.f2.getReleaseDate());
-        record.setVideoReleaseDate(value.f2.getVideoReleaseDate());
+        record.setReleaseDate(DateUtils.dataFormatByEnglish(value.f2.getReleaseDate()));
+        record.setVideoReleaseDate(DateUtils.dataFormatByEnglish(value.f2.getVideoReleaseDate()));
         record.setAge(value.f0.getAge().toString());
 
         if (!value.f2.getUnknown().equals("0")) {

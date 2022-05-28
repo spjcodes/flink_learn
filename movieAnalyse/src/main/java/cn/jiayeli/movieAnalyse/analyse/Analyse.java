@@ -6,22 +6,27 @@ import cn.jiayeli.movieAnalyse.schema.UserMovieRatingAvroSchema;
 import cn.jiayeli.movieAnalyse.util.EnvUtil;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.RichFlatMapFunction;
 import org.apache.flink.api.common.functions.RichReduceFunction;
+import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.util.Collector;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 
 public class Analyse {
@@ -62,7 +67,7 @@ public class Analyse {
 
         userInfoStream.sink2kafka();
         //可写入hive或clickhouse，doris等进行adhoc分析，此处写入mysql方便进行结果认证
-        userInfoStream.sink2Mysql();
+        //userInfoStream.sink2Mysql();
 
         /*env.fromSource(userMovieRatingSourceByBI, WatermarkStrategy.forMonotonousTimestamps(), "userMovieRatingKafkaSourceForBI")
                 .print();*/
@@ -71,20 +76,65 @@ public class Analyse {
 
         Analyse analyse = new Analyse();
         //movie rating top N analyse
-        analyse.movieRatingTopNAnalyse(userMovieRatingStream);
+//        analyse.movieRatingTopNAnalyse(userMovieRatingStream);
 
         //Top N most popular movies type of the year analyse
-//        analyse.yearMovieTypeTopAnalyse(userMovieRatingStream);
-
-
+        analyse.yearMovieTypeTopAnalyse(userMovieRatingStream);
 
         env.execute();
     }
 
-    @Test
-    public void yearMovieTypeTopAnalyse() throws ParseException {
+    /**
+     * data demo: <movieType, rating, releaseDate>
+     * @param userMovieRatingStream
+     */
+    public void yearMovieTypeTopAnalyse(DataStreamSource<UserMovieRatingInfoModule> userMovieRatingStream){
+        userMovieRatingStream
+                .flatMap(new FlatMapFunction<UserMovieRatingInfoModule, Tuple3<String, Integer, String>>() {
+                    @Override
+                    public void flatMap(UserMovieRatingInfoModule value, Collector<Tuple3<String, Integer, String>> out) throws Exception {
+                        Arrays.stream(value.getType().split("\\|")).forEach(t -> {
+                            out.collect(Tuple3.of(t, value.getRating(), value.getReleaseDate()));
+                        });
+                  }
+                })
+//                .keyBy(e -> e.f0)
+                .keyBy(new KeySelector<Tuple3<String, Integer, String>, Tuple2<String, String>>() {
+                    @Override
+                    public Tuple2<String, String> getKey(Tuple3<String, Integer, String> value) throws Exception {
+                        return Tuple2.of(value.f0, value.f2.split("\\-")[0]);
+                    }
+                })
+                .sum(1)
+                .flatMap(new RichFlatMapFunction<Tuple3<String, Integer, String>, Tuple3<String, Integer, String>>() {
 
+                    transient TreeMap<Integer, Tuple3<String, Integer, String>> treeMap;
+
+                    @Override
+                    public void open(Configuration parameters) throws Exception {
+                        super.open(parameters);
+                        treeMap = new TreeMap<Integer, Tuple3<String, Integer, String>>((e, ee) -> e >= ee ? -1 : 1);
+                    }
+
+                    @Override
+                    public void flatMap(Tuple3<String, Integer, String> value, Collector<Tuple3<String, Integer, String>> out) throws Exception {
+                        treeMap.put(value.f1, value);
+                        if (treeMap.size() > 10) {
+                            treeMap.pollLastEntry();
+                        }
+                    }
+                })
+                .print();
     }
+
+    @Test
+    public void t() {
+        System.out.println("1a".compareTo("02"));
+        System.out.println(new Integer(1).compareTo(new Integer(2)));
+    }
+
+
+
 
 
 
