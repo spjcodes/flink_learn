@@ -60,25 +60,25 @@ create table if not exists dblearn.movies (
     ,releaseDate       varchar(26)
     ,videoReleaseDate  varchar(26)
     ,IMDbURL           varchar(128)
-    ,`unknown`         varchar(24)
-    ,`Action`          varchar(24)
-    ,Adventure         varchar(24)
-    ,Animation         varchar(24)
-    ,Childrens         varchar(24)
-    ,Comedy            varchar(24)
-    ,Crime             varchar(24)
-    ,Documentary       varchar(24)
-    ,Drama             varchar(24)
-    ,Fantasy           varchar(24)
-    ,FilmNoir          varchar(24)
-    ,Horror            varchar(24)
-    ,Musical           varchar(24)
-    ,Mystery           varchar(24)
-    ,Romance           varchar(24)
-    ,SciFi             varchar(24)
-    ,Thriller          varchar(24)
-    ,War               varchar(24)
-    ,Western           varchar(24)
+    ,`unknown`         tinyint
+    ,`Action`          tinyint
+    ,Adventure         tinyint
+    ,Animation         tinyint
+    ,Childrens         tinyint
+    ,Comedy            tinyint
+    ,Crime             tinyint
+    ,Documentary       tinyint
+    ,Drama             tinyint
+    ,Fantasy           tinyint
+    ,FilmNoir          tinyint
+    ,Horror            tinyint
+    ,Musical           tinyint
+    ,Mystery           tinyint
+    ,Romance           tinyint
+    ,SciFi             tinyint
+    ,Thriller          tinyint
+    ,War               tinyint
+    ,Western           tinyint
 )
 ENGINE=olap
 DUPLICATE KEY(movieId, movieTitle)
@@ -86,6 +86,29 @@ DISTRIBUTEd BY HASH(movieId) BUCKETS 3
 PROPERTIES (
   "replication_num" = "1"
 );
+/*import data
+-- stream load
+curl --location-trusted -u root:root.123 \
+-H "label:movie_all_01" -H "column_separator:|" \
+-T  http://node01:8030/api/dblearn/movies/_stream_load
+
+-- broker load
+LOAD LABEL dblearn.tb_aggsp_201707081
+ (
+ DATA INFILE("hdfs://node01:8020/tmp/u.item")
+ INTO TABLE `movies` COLUMNS TERMINATED BY "|"
+ )WITH BROKER broker_name
+(
+ "username"="root",
+ "password"="root"
+)
+PROPERTIES
+(
+ "timeout"="3600",
+ "max_filter_ratio"="0.1"
+);
+
+ */
 
 
 -- 用户电影评分信息表
