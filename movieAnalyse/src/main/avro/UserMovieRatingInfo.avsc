@@ -9,7 +9,7 @@
     },
     {
       "name": "age",
-      "type": "string"
+      "type": "int"
     },
     {
       "name": "gender",
@@ -25,7 +25,7 @@
     },
     {
       "name": "movieId",
-      "type": "string"
+      "type": "long"
     },
     {
       "name": "movieTitle",

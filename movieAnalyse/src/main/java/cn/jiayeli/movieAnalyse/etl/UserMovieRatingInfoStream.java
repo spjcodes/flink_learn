@@ -8,9 +8,15 @@ import cn.jiayeli.movieAnalyse.schema.UserMovieRatingAvroSchema;
 import cn.jiayeli.movieAnalyse.source.RatingInfoSourceFunction;
 import cn.jiayeli.movieAnalyse.util.DataParseUtil;
 import cn.jiayeli.movieAnalyse.util.DateUtils;
+import com.google.gson.Gson;
 import com.mysql.cj.jdbc.Driver;
+import org.apache.doris.flink.cfg.DorisExecutionOptions;
+import org.apache.doris.flink.cfg.DorisOptions;
+import org.apache.doris.flink.cfg.DorisReadOptions;
+import org.apache.doris.flink.cfg.DorisSink;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
+import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.base.DeliveryGuarantee;
@@ -22,10 +28,12 @@ import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
+import org.codehaus.jackson.map.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * 将用户信息，电影信息和评分信息进行聚合，并写入kafka
@@ -104,6 +112,44 @@ public class UserMovieRatingInfoStream {
                 .sinkTo(sink);
 //              .print();
 
+    }
+
+    public void sink2Doris() {
+        Properties pro = new Properties();
+        pro.setProperty("format", "json");
+        pro.setProperty("strip_outer_array", "true");
+        userMovieRatingDetail
+                .map(new RichMapFunction<Tuple3<UserModule, RatingModule, MovieModule>, String>() {
+
+                    transient Gson gson;
+                    long count = 0;
+
+                    @Override
+                    public void open(Configuration parameters) throws Exception {
+                        super.open(parameters);
+                        this.gson = new Gson();
+                    }
+
+                    @Override
+                    public String map(Tuple3<UserModule, RatingModule, MovieModule> value) throws Exception {
+                        logger.info("mysql sink info:\t" + "[ts:_" + System.currentTimeMillis() + "\tcount: " + ++count + "]");
+                        return gson.toJson(value);
+                    }
+                })
+                .addSink(DorisSink.sink(
+                        DorisReadOptions.builder().build(),
+                        DorisExecutionOptions.builder()
+                                .setStreamLoadProp(pro)
+                                .setMaxRetries(3)
+                                .setBatchSize(100)
+                                .setBatchIntervalMs(1000L).build(),
+                        DorisOptions.builder()
+                                .setFenodes("node01:8030")
+                                .setUsername("root")
+                                .setPassword("root.123")
+                                .setTableIdentifier("dblearn.userMovieRatingInfo")
+                                .build()
+                ));
     }
 
     public void sink2Mysql() {

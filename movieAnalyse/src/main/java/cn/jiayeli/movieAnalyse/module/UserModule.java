@@ -14,7 +14,7 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class UserModule extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -1025833007578063690L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"age\",\"type\":\"string\"},{\"name\":\"gender\",\"type\":\"string\"},{\"name\":\"occupation\",\"type\":\"string\"},{\"name\":\"zipCode\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"userId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"age\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"gender\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"occupation\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"zipCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -51,11 +51,11 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
     return DECODER.decode(b);
   }
 
-  @Deprecated public java.lang.CharSequence userId;
-  @Deprecated public java.lang.CharSequence age;
-  @Deprecated public java.lang.CharSequence gender;
-  @Deprecated public java.lang.CharSequence occupation;
-  @Deprecated public java.lang.CharSequence zipCode;
+  @Deprecated public java.lang.String userId;
+  @Deprecated public java.lang.String age;
+  @Deprecated public java.lang.String gender;
+  @Deprecated public java.lang.String occupation;
+  @Deprecated public java.lang.String zipCode;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -72,7 +72,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * @param occupation The new value for occupation
    * @param zipCode The new value for zipCode
    */
-  public UserModule(java.lang.CharSequence userId, java.lang.CharSequence age, java.lang.CharSequence gender, java.lang.CharSequence occupation, java.lang.CharSequence zipCode) {
+  public UserModule(java.lang.String userId, java.lang.String age, java.lang.String gender, java.lang.String occupation, java.lang.String zipCode) {
     this.userId = userId;
     this.age = age;
     this.gender = gender;
@@ -97,11 +97,11 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: userId = (java.lang.CharSequence)value$; break;
-    case 1: age = (java.lang.CharSequence)value$; break;
-    case 2: gender = (java.lang.CharSequence)value$; break;
-    case 3: occupation = (java.lang.CharSequence)value$; break;
-    case 4: zipCode = (java.lang.CharSequence)value$; break;
+    case 0: userId = (java.lang.String)value$; break;
+    case 1: age = (java.lang.String)value$; break;
+    case 2: gender = (java.lang.String)value$; break;
+    case 3: occupation = (java.lang.String)value$; break;
+    case 4: zipCode = (java.lang.String)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -110,7 +110,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Gets the value of the 'userId' field.
    * @return The value of the 'userId' field.
    */
-  public java.lang.CharSequence getUserId() {
+  public java.lang.String getUserId() {
     return userId;
   }
 
@@ -118,7 +118,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Sets the value of the 'userId' field.
    * @param value the value to set.
    */
-  public void setUserId(java.lang.CharSequence value) {
+  public void setUserId(java.lang.String value) {
     this.userId = value;
   }
 
@@ -126,7 +126,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Gets the value of the 'age' field.
    * @return The value of the 'age' field.
    */
-  public java.lang.CharSequence getAge() {
+  public java.lang.String getAge() {
     return age;
   }
 
@@ -134,7 +134,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Sets the value of the 'age' field.
    * @param value the value to set.
    */
-  public void setAge(java.lang.CharSequence value) {
+  public void setAge(java.lang.String value) {
     this.age = value;
   }
 
@@ -142,7 +142,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Gets the value of the 'gender' field.
    * @return The value of the 'gender' field.
    */
-  public java.lang.CharSequence getGender() {
+  public java.lang.String getGender() {
     return gender;
   }
 
@@ -150,7 +150,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Sets the value of the 'gender' field.
    * @param value the value to set.
    */
-  public void setGender(java.lang.CharSequence value) {
+  public void setGender(java.lang.String value) {
     this.gender = value;
   }
 
@@ -158,7 +158,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Gets the value of the 'occupation' field.
    * @return The value of the 'occupation' field.
    */
-  public java.lang.CharSequence getOccupation() {
+  public java.lang.String getOccupation() {
     return occupation;
   }
 
@@ -166,7 +166,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Sets the value of the 'occupation' field.
    * @param value the value to set.
    */
-  public void setOccupation(java.lang.CharSequence value) {
+  public void setOccupation(java.lang.String value) {
     this.occupation = value;
   }
 
@@ -174,7 +174,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Gets the value of the 'zipCode' field.
    * @return The value of the 'zipCode' field.
    */
-  public java.lang.CharSequence getZipCode() {
+  public java.lang.String getZipCode() {
     return zipCode;
   }
 
@@ -182,7 +182,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
    * Sets the value of the 'zipCode' field.
    * @param value the value to set.
    */
-  public void setZipCode(java.lang.CharSequence value) {
+  public void setZipCode(java.lang.String value) {
     this.zipCode = value;
   }
 
@@ -218,11 +218,11 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<UserModule>
     implements org.apache.avro.data.RecordBuilder<UserModule> {
 
-    private java.lang.CharSequence userId;
-    private java.lang.CharSequence age;
-    private java.lang.CharSequence gender;
-    private java.lang.CharSequence occupation;
-    private java.lang.CharSequence zipCode;
+    private java.lang.String userId;
+    private java.lang.String age;
+    private java.lang.String gender;
+    private java.lang.String occupation;
+    private java.lang.String zipCode;
 
     /** Creates a new Builder */
     private Builder() {
@@ -289,7 +289,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * Gets the value of the 'userId' field.
       * @return The value.
       */
-    public java.lang.CharSequence getUserId() {
+    public java.lang.String getUserId() {
       return userId;
     }
 
@@ -298,7 +298,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * @param value The value of 'userId'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setUserId(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setUserId(java.lang.String value) {
       validate(fields()[0], value);
       this.userId = value;
       fieldSetFlags()[0] = true;
@@ -328,7 +328,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * Gets the value of the 'age' field.
       * @return The value.
       */
-    public java.lang.CharSequence getAge() {
+    public java.lang.String getAge() {
       return age;
     }
 
@@ -337,7 +337,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * @param value The value of 'age'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setAge(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setAge(java.lang.String value) {
       validate(fields()[1], value);
       this.age = value;
       fieldSetFlags()[1] = true;
@@ -367,7 +367,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * Gets the value of the 'gender' field.
       * @return The value.
       */
-    public java.lang.CharSequence getGender() {
+    public java.lang.String getGender() {
       return gender;
     }
 
@@ -376,7 +376,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * @param value The value of 'gender'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setGender(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setGender(java.lang.String value) {
       validate(fields()[2], value);
       this.gender = value;
       fieldSetFlags()[2] = true;
@@ -406,7 +406,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * Gets the value of the 'occupation' field.
       * @return The value.
       */
-    public java.lang.CharSequence getOccupation() {
+    public java.lang.String getOccupation() {
       return occupation;
     }
 
@@ -415,7 +415,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * @param value The value of 'occupation'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setOccupation(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setOccupation(java.lang.String value) {
       validate(fields()[3], value);
       this.occupation = value;
       fieldSetFlags()[3] = true;
@@ -445,7 +445,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * Gets the value of the 'zipCode' field.
       * @return The value.
       */
-    public java.lang.CharSequence getZipCode() {
+    public java.lang.String getZipCode() {
       return zipCode;
     }
 
@@ -454,7 +454,7 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
       * @param value The value of 'zipCode'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setZipCode(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.UserModule.Builder setZipCode(java.lang.String value) {
       validate(fields()[4], value);
       this.zipCode = value;
       fieldSetFlags()[4] = true;
@@ -485,11 +485,11 @@ public class UserModule extends org.apache.avro.specific.SpecificRecordBase impl
     public UserModule build() {
       try {
         UserModule record = new UserModule();
-        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.age = fieldSetFlags()[1] ? this.age : (java.lang.CharSequence) defaultValue(fields()[1]);
-        record.gender = fieldSetFlags()[2] ? this.gender : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.occupation = fieldSetFlags()[3] ? this.occupation : (java.lang.CharSequence) defaultValue(fields()[3]);
-        record.zipCode = fieldSetFlags()[4] ? this.zipCode : (java.lang.CharSequence) defaultValue(fields()[4]);
+        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.String) defaultValue(fields()[0]);
+        record.age = fieldSetFlags()[1] ? this.age : (java.lang.String) defaultValue(fields()[1]);
+        record.gender = fieldSetFlags()[2] ? this.gender : (java.lang.String) defaultValue(fields()[2]);
+        record.occupation = fieldSetFlags()[3] ? this.occupation : (java.lang.String) defaultValue(fields()[3]);
+        record.zipCode = fieldSetFlags()[4] ? this.zipCode : (java.lang.String) defaultValue(fields()[4]);
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

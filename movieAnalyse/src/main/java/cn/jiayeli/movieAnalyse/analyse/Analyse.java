@@ -4,7 +4,6 @@ import cn.jiayeli.movieAnalyse.etl.UserMovieRatingInfoStream;
 import cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule;
 import cn.jiayeli.movieAnalyse.schema.UserMovieRatingAvroSchema;
 import cn.jiayeli.movieAnalyse.util.EnvUtil;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -20,12 +19,9 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -65,9 +61,10 @@ public class Analyse {
 
         UserMovieRatingInfoStream userInfoStream = new UserMovieRatingInfoStream(env);
 
-        userInfoStream.sink2kafka();
+//        userInfoStream.sink2kafka();
         //可写入hive或clickhouse，doris等进行olap分析
         //userInfoStream.sink2Mysql();
+        userInfoStream.sink2Doris();
 
         /*env.fromSource(userMovieRatingSourceByBI, WatermarkStrategy.forMonotonousTimestamps(), "userMovieRatingKafkaSourceForBI")
                 .print();*/
@@ -127,16 +124,6 @@ public class Analyse {
                 .print();
     }
 
-    @Test
-    public void t() {
-        System.out.println("1a".compareTo("02"));
-        System.out.println(new Integer(1).compareTo(new Integer(2)));
-    }
-
-
-
-
-
 
 
     public void movieRatingTopNAnalyse(DataStreamSource<UserMovieRatingInfoModule> userMovieRatingStream) {
@@ -175,8 +162,5 @@ public class Analyse {
                 })
                 .print();
     }
-
-
-
 
 }

@@ -52,7 +52,7 @@ CREATE TABLE `userMovieRatingInfo` (
     PRIMARY KEY (`userId`, `movieId`)
 );
 
-
+------------------------------------------------- doris --------------------------------------------------------------------
 -- doris table
 create table if not exists dblearn.movies (
      movieId bigint
@@ -82,7 +82,7 @@ create table if not exists dblearn.movies (
 )
 ENGINE=olap
 DUPLICATE KEY(movieId, movieTitle)
-DISTRIBUTEd BY HASH(movieId) BUCKETS 3
+DISTRIBUTED BY HASH(movieId) BUCKETS 3
 PROPERTIES (
   "replication_num" = "1"
 );
@@ -112,18 +112,30 @@ PROPERTIES
 
 
 -- 用户电影评分信息表
+-- 用户电影评分信息表
 drop table if exists dblearn.userMovieRatingInfo;
-CREATE TABLE `userMovieRatingInfo` (
-    userId int,
-    itemId int,
-    rating tinyint,
-    timestamp   bigint
+CREATE TABLE if not exists `userMovieRatingInfo` (
+    `userId` varchar(10) NOT NULL,
+    `age` smallint (3) DEFAULT NULL,
+    `gender` char DEFAULT NULL,
+    `occupation` varchar(20) DEFAULT NULL,
+    `zipCode` varchar(10) DEFAULT NULL,
+    `movieId` bigint(10) NOT NULL,
+    `movieTitle` varchar(150) DEFAULT NULL,
+    `releaseDate` varchar(20) DEFAULT NULL,
+    `videoReleaseDate` varchar(20) DEFAULT NULL,
+    `IMDbURL` varchar(256) DEFAULT NULL,
+    `type` varchar(180) DEFAULT NULL,
+    `rating` smallint DEFAULT NULL,
+    `timestamp` datetime DEFAULT NULL,
+    createTime datetime ,
+    updateTime datetime
 )
-    ENGINE=olap
-DUPLICATE KEY(userId, itemId)
-DISTRIBUTEd BY HASH(userId) BUCKETS 2
+engine = olap
+duplicate key (userId, age)
+DISTRIBUTED BY HASH(movieId) BUCKETS 3
 PROPERTIES (
-    "replication_num" = "1"
+"replication_num" = "1"
 );
 
 

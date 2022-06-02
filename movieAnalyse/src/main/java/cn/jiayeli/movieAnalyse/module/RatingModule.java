@@ -14,7 +14,7 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class RatingModule extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = 9180824231774196728L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"RatingModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"itemId\",\"type\":\"string\"},{\"name\":\"rating\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"RatingModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"userId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"itemId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"rating\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -51,10 +51,10 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
     return DECODER.decode(b);
   }
 
-  @Deprecated public java.lang.CharSequence userId;
-  @Deprecated public java.lang.CharSequence itemId;
+  @Deprecated public java.lang.String userId;
+  @Deprecated public java.lang.String itemId;
   @Deprecated public int rating;
-  @Deprecated public java.lang.CharSequence timestamp;
+  @Deprecated public java.lang.String timestamp;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -70,7 +70,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
    * @param rating The new value for rating
    * @param timestamp The new value for timestamp
    */
-  public RatingModule(java.lang.CharSequence userId, java.lang.CharSequence itemId, java.lang.Integer rating, java.lang.CharSequence timestamp) {
+  public RatingModule(java.lang.String userId, java.lang.String itemId, java.lang.Integer rating, java.lang.String timestamp) {
     this.userId = userId;
     this.itemId = itemId;
     this.rating = rating;
@@ -93,10 +93,10 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: userId = (java.lang.CharSequence)value$; break;
-    case 1: itemId = (java.lang.CharSequence)value$; break;
+    case 0: userId = (java.lang.String)value$; break;
+    case 1: itemId = (java.lang.String)value$; break;
     case 2: rating = (java.lang.Integer)value$; break;
-    case 3: timestamp = (java.lang.CharSequence)value$; break;
+    case 3: timestamp = (java.lang.String)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -105,7 +105,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
    * Gets the value of the 'userId' field.
    * @return The value of the 'userId' field.
    */
-  public java.lang.CharSequence getUserId() {
+  public java.lang.String getUserId() {
     return userId;
   }
 
@@ -113,7 +113,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
    * Sets the value of the 'userId' field.
    * @param value the value to set.
    */
-  public void setUserId(java.lang.CharSequence value) {
+  public void setUserId(java.lang.String value) {
     this.userId = value;
   }
 
@@ -121,7 +121,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
    * Gets the value of the 'itemId' field.
    * @return The value of the 'itemId' field.
    */
-  public java.lang.CharSequence getItemId() {
+  public java.lang.String getItemId() {
     return itemId;
   }
 
@@ -129,7 +129,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
    * Sets the value of the 'itemId' field.
    * @param value the value to set.
    */
-  public void setItemId(java.lang.CharSequence value) {
+  public void setItemId(java.lang.String value) {
     this.itemId = value;
   }
 
@@ -153,7 +153,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
    * Gets the value of the 'timestamp' field.
    * @return The value of the 'timestamp' field.
    */
-  public java.lang.CharSequence getTimestamp() {
+  public java.lang.String getTimestamp() {
     return timestamp;
   }
 
@@ -161,7 +161,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
    * Sets the value of the 'timestamp' field.
    * @param value the value to set.
    */
-  public void setTimestamp(java.lang.CharSequence value) {
+  public void setTimestamp(java.lang.String value) {
     this.timestamp = value;
   }
 
@@ -197,10 +197,10 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<RatingModule>
     implements org.apache.avro.data.RecordBuilder<RatingModule> {
 
-    private java.lang.CharSequence userId;
-    private java.lang.CharSequence itemId;
+    private java.lang.String userId;
+    private java.lang.String itemId;
     private int rating;
-    private java.lang.CharSequence timestamp;
+    private java.lang.String timestamp;
 
     /** Creates a new Builder */
     private Builder() {
@@ -259,7 +259,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
       * Gets the value of the 'userId' field.
       * @return The value.
       */
-    public java.lang.CharSequence getUserId() {
+    public java.lang.String getUserId() {
       return userId;
     }
 
@@ -268,7 +268,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'userId'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.RatingModule.Builder setUserId(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.RatingModule.Builder setUserId(java.lang.String value) {
       validate(fields()[0], value);
       this.userId = value;
       fieldSetFlags()[0] = true;
@@ -298,7 +298,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
       * Gets the value of the 'itemId' field.
       * @return The value.
       */
-    public java.lang.CharSequence getItemId() {
+    public java.lang.String getItemId() {
       return itemId;
     }
 
@@ -307,7 +307,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'itemId'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.RatingModule.Builder setItemId(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.RatingModule.Builder setItemId(java.lang.String value) {
       validate(fields()[1], value);
       this.itemId = value;
       fieldSetFlags()[1] = true;
@@ -375,7 +375,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
       * Gets the value of the 'timestamp' field.
       * @return The value.
       */
-    public java.lang.CharSequence getTimestamp() {
+    public java.lang.String getTimestamp() {
       return timestamp;
     }
 
@@ -384,7 +384,7 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
       * @param value The value of 'timestamp'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.RatingModule.Builder setTimestamp(java.lang.CharSequence value) {
+    public cn.jiayeli.movieAnalyse.module.RatingModule.Builder setTimestamp(java.lang.String value) {
       validate(fields()[3], value);
       this.timestamp = value;
       fieldSetFlags()[3] = true;
@@ -415,10 +415,10 @@ public class RatingModule extends org.apache.avro.specific.SpecificRecordBase im
     public RatingModule build() {
       try {
         RatingModule record = new RatingModule();
-        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.itemId = fieldSetFlags()[1] ? this.itemId : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.String) defaultValue(fields()[0]);
+        record.itemId = fieldSetFlags()[1] ? this.itemId : (java.lang.String) defaultValue(fields()[1]);
         record.rating = fieldSetFlags()[2] ? this.rating : (java.lang.Integer) defaultValue(fields()[2]);
-        record.timestamp = fieldSetFlags()[3] ? this.timestamp : (java.lang.CharSequence) defaultValue(fields()[3]);
+        record.timestamp = fieldSetFlags()[3] ? this.timestamp : (java.lang.String) defaultValue(fields()[3]);
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

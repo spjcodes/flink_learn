@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class UserMovieRatingInfoModule extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 1222733345910003385L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserMovieRatingInfoModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"userId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"age\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"gender\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"occupation\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"zipCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"movieId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"movieTitle\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"releaseDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"videoReleaseDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"IMDbURL\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"type\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"rating\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  private static final long serialVersionUID = -3224613763160278114L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserMovieRatingInfoModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"userId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"age\",\"type\":\"int\"},{\"name\":\"gender\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"occupation\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"zipCode\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"movieId\",\"type\":\"long\"},{\"name\":\"movieTitle\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"releaseDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"videoReleaseDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"IMDbURL\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"type\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"rating\",\"type\":\"int\"},{\"name\":\"timestamp\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -52,11 +52,11 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
   }
 
   @Deprecated public java.lang.String userId;
-  @Deprecated public java.lang.String age;
+  @Deprecated public int age;
   @Deprecated public java.lang.String gender;
   @Deprecated public java.lang.String occupation;
   @Deprecated public java.lang.String zipCode;
-  @Deprecated public java.lang.String movieId;
+  @Deprecated public long movieId;
   @Deprecated public java.lang.String movieTitle;
   @Deprecated public java.lang.String releaseDate;
   @Deprecated public java.lang.String videoReleaseDate;
@@ -88,7 +88,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
    * @param rating The new value for rating
    * @param timestamp The new value for timestamp
    */
-  public UserMovieRatingInfoModule(java.lang.String userId, java.lang.String age, java.lang.String gender, java.lang.String occupation, java.lang.String zipCode, java.lang.String movieId, java.lang.String movieTitle, java.lang.String releaseDate, java.lang.String videoReleaseDate, java.lang.String IMDbURL, java.lang.String type, java.lang.Integer rating, java.lang.String timestamp) {
+  public UserMovieRatingInfoModule(java.lang.String userId, java.lang.Integer age, java.lang.String gender, java.lang.String occupation, java.lang.String zipCode, java.lang.Long movieId, java.lang.String movieTitle, java.lang.String releaseDate, java.lang.String videoReleaseDate, java.lang.String IMDbURL, java.lang.String type, java.lang.Integer rating, java.lang.String timestamp) {
     this.userId = userId;
     this.age = age;
     this.gender = gender;
@@ -130,11 +130,11 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: userId = (java.lang.String)value$; break;
-    case 1: age = (java.lang.String)value$; break;
+    case 1: age = (java.lang.Integer)value$; break;
     case 2: gender = (java.lang.String)value$; break;
     case 3: occupation = (java.lang.String)value$; break;
     case 4: zipCode = (java.lang.String)value$; break;
-    case 5: movieId = (java.lang.String)value$; break;
+    case 5: movieId = (java.lang.Long)value$; break;
     case 6: movieTitle = (java.lang.String)value$; break;
     case 7: releaseDate = (java.lang.String)value$; break;
     case 8: videoReleaseDate = (java.lang.String)value$; break;
@@ -166,7 +166,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
    * Gets the value of the 'age' field.
    * @return The value of the 'age' field.
    */
-  public java.lang.String getAge() {
+  public java.lang.Integer getAge() {
     return age;
   }
 
@@ -174,7 +174,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
    * Sets the value of the 'age' field.
    * @param value the value to set.
    */
-  public void setAge(java.lang.String value) {
+  public void setAge(java.lang.Integer value) {
     this.age = value;
   }
 
@@ -230,7 +230,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
    * Gets the value of the 'movieId' field.
    * @return The value of the 'movieId' field.
    */
-  public java.lang.String getMovieId() {
+  public java.lang.Long getMovieId() {
     return movieId;
   }
 
@@ -238,7 +238,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
    * Sets the value of the 'movieId' field.
    * @param value the value to set.
    */
-  public void setMovieId(java.lang.String value) {
+  public void setMovieId(java.lang.Long value) {
     this.movieId = value;
   }
 
@@ -387,11 +387,11 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
     implements org.apache.avro.data.RecordBuilder<UserMovieRatingInfoModule> {
 
     private java.lang.String userId;
-    private java.lang.String age;
+    private int age;
     private java.lang.String gender;
     private java.lang.String occupation;
     private java.lang.String zipCode;
-    private java.lang.String movieId;
+    private long movieId;
     private java.lang.String movieTitle;
     private java.lang.String releaseDate;
     private java.lang.String videoReleaseDate;
@@ -568,7 +568,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
       * Gets the value of the 'age' field.
       * @return The value.
       */
-    public java.lang.String getAge() {
+    public java.lang.Integer getAge() {
       return age;
     }
 
@@ -577,7 +577,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
       * @param value The value of 'age'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule.Builder setAge(java.lang.String value) {
+    public cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule.Builder setAge(int value) {
       validate(fields()[1], value);
       this.age = value;
       fieldSetFlags()[1] = true;
@@ -598,7 +598,6 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule.Builder clearAge() {
-      age = null;
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -724,7 +723,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
       * Gets the value of the 'movieId' field.
       * @return The value.
       */
-    public java.lang.String getMovieId() {
+    public java.lang.Long getMovieId() {
       return movieId;
     }
 
@@ -733,7 +732,7 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
       * @param value The value of 'movieId'.
       * @return This builder.
       */
-    public cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule.Builder setMovieId(java.lang.String value) {
+    public cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule.Builder setMovieId(long value) {
       validate(fields()[5], value);
       this.movieId = value;
       fieldSetFlags()[5] = true;
@@ -754,7 +753,6 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
       * @return This builder.
       */
     public cn.jiayeli.movieAnalyse.module.UserMovieRatingInfoModule.Builder clearMovieId() {
-      movieId = null;
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -1037,11 +1035,11 @@ public class UserMovieRatingInfoModule extends org.apache.avro.specific.Specific
       try {
         UserMovieRatingInfoModule record = new UserMovieRatingInfoModule();
         record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.String) defaultValue(fields()[0]);
-        record.age = fieldSetFlags()[1] ? this.age : (java.lang.String) defaultValue(fields()[1]);
+        record.age = fieldSetFlags()[1] ? this.age : (java.lang.Integer) defaultValue(fields()[1]);
         record.gender = fieldSetFlags()[2] ? this.gender : (java.lang.String) defaultValue(fields()[2]);
         record.occupation = fieldSetFlags()[3] ? this.occupation : (java.lang.String) defaultValue(fields()[3]);
         record.zipCode = fieldSetFlags()[4] ? this.zipCode : (java.lang.String) defaultValue(fields()[4]);
-        record.movieId = fieldSetFlags()[5] ? this.movieId : (java.lang.String) defaultValue(fields()[5]);
+        record.movieId = fieldSetFlags()[5] ? this.movieId : (java.lang.Long) defaultValue(fields()[5]);
         record.movieTitle = fieldSetFlags()[6] ? this.movieTitle : (java.lang.String) defaultValue(fields()[6]);
         record.releaseDate = fieldSetFlags()[7] ? this.releaseDate : (java.lang.String) defaultValue(fields()[7]);
         record.videoReleaseDate = fieldSetFlags()[8] ? this.videoReleaseDate : (java.lang.String) defaultValue(fields()[8]);

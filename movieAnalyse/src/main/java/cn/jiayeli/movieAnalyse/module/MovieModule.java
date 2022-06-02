@@ -14,7 +14,7 @@ import org.apache.avro.message.SchemaStore;
 @org.apache.avro.specific.AvroGenerated
 public class MovieModule extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
   private static final long serialVersionUID = -6527579532755094477L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MovieModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"movieId\",\"type\":\"string\"},{\"name\":\"movieTitle\",\"type\":\"string\"},{\"name\":\"releaseDate\",\"type\":\"string\"},{\"name\":\"videoReleaseDate\",\"type\":\"string\"},{\"name\":\"IMDbURL\",\"type\":\"string\"},{\"name\":\"unknown\",\"type\":\"string\"},{\"name\":\"Action\",\"type\":\"string\"},{\"name\":\"Adventure\",\"type\":\"string\"},{\"name\":\"Animation\",\"type\":\"string\"},{\"name\":\"Childrens\",\"type\":\"string\"},{\"name\":\"Comedy\",\"type\":\"string\"},{\"name\":\"Crime\",\"type\":\"string\"},{\"name\":\"Documentary\",\"type\":\"string\"},{\"name\":\"Drama\",\"type\":\"string\"},{\"name\":\"Fantasy\",\"type\":\"string\"},{\"name\":\"FilmNoir\",\"type\":\"string\"},{\"name\":\"Horror\",\"type\":\"string\"},{\"name\":\"Musical\",\"type\":\"string\"},{\"name\":\"Mystery\",\"type\":\"string\"},{\"name\":\"Romance\",\"type\":\"string\"},{\"name\":\"SciFi\",\"type\":\"string\"},{\"name\":\"Thriller\",\"type\":\"string\"},{\"name\":\"War\",\"type\":\"string\"},{\"name\":\"Western\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"MovieModule\",\"namespace\":\"cn.jiayeli.movieAnalyse.module\",\"fields\":[{\"name\":\"movieId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"movieTitle\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"releaseDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"videoReleaseDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"IMDbURL\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"unknown\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Action\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Adventure\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Animation\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Childrens\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Comedy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Crime\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Documentary\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Drama\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Fantasy\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"FilmNoir\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Horror\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Musical\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Mystery\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Romance\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"SciFi\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Thriller\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"War\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"Western\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -1845,33 +1845,4 @@ public class MovieModule extends org.apache.avro.specific.SpecificRecordBase imp
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
-  @Override
-  public String toString() {
-    return "MovieModule{" +
-            "movieId=" + movieId +
-            ", movieTitle=" + movieTitle +
-            ", releaseDate=" + releaseDate +
-            ", videoReleaseDate=" + videoReleaseDate +
-            ", IMDbURL=" + IMDbURL +
-            ", unknown=" + unknown +
-            ", Action=" + Action +
-            ", Adventure=" + Adventure +
-            ", Animation=" + Animation +
-            ", Childrens=" + Childrens +
-            ", Comedy=" + Comedy +
-            ", Crime=" + Crime +
-            ", Documentary=" + Documentary +
-            ", Drama=" + Drama +
-            ", Fantasy=" + Fantasy +
-            ", FilmNoir=" + FilmNoir +
-            ", Horror=" + Horror +
-            ", Musical=" + Musical +
-            ", Mystery=" + Mystery +
-            ", Romance=" + Romance +
-            ", SciFi=" + SciFi +
-            ", Thriller=" + Thriller +
-            ", War=" + War +
-            ", Western=" + Western +
-            '}';
-  }
 }
