@@ -27,6 +27,7 @@
         <avro.version>1.8.2</avro.version>
         <slf4j.version>1.7.15</slf4j.version>
         <jsoup.version>1.14.3</jsoup.version>
+        <gson.version>2.8.6</gson.version>
     </properties>
 
     <dependencies>
@@ -205,6 +206,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -218,12 +225,14 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- html docker parse tools-->
+        <!-- html document parse tools-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
         </dependency>
+
+
 
         <!--log4j配置不生效解决-->
         <dependency>
