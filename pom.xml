@@ -21,6 +21,7 @@
         <flink.version>1.14.3</flink.version>
         <flink-kafka.version>1.14.3</flink-kafka.version>
         <flink-cdc.version>2.2-SNAPSHOT</flink-cdc.version>
+        <doris.version>1.0.3</doris.version>
         <kafka.version>3.1.0</kafka.version>
         <mysql.version>8.0.27</mysql.version>
         <avro.version>1.8.2</avro.version>
@@ -144,6 +145,13 @@
             </exclusions>
         </dependency>
 
+        <!-- flink-doris-connector -->
+        <dependency>
+            <groupId>org.apache.doris</groupId>
+            <artifactId>flink-doris-connector-1.14_${scala.binary.version}</artifactId>
+            <version>${doris.version}</version>
+        </dependency>
+
 
         <!--        flink web UI-->
         <dependency>
@@ -195,7 +203,6 @@
             <version>${flink.version}</version>
 <!--            <scope>provided</scope>-->
         </dependency>
-
 
         <dependency>
             <groupId>junit</groupId>

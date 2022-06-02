@@ -66,7 +66,7 @@ public class Analyse {
         UserMovieRatingInfoStream userInfoStream = new UserMovieRatingInfoStream(env);
 
         userInfoStream.sink2kafka();
-        //可写入hive或clickhouse，doris等进行adhoc分析，此处写入mysql方便进行结果认证
+        //可写入hive或clickhouse，doris等进行olap分析
         //userInfoStream.sink2Mysql();
 
         /*env.fromSource(userMovieRatingSourceByBI, WatermarkStrategy.forMonotonousTimestamps(), "userMovieRatingKafkaSourceForBI")

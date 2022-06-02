@@ -2,8 +2,8 @@
 
 ```mermaid
 graph LR
-1(dataGenerator) --> 2[mysql] -.-> 3((flinkCDC)) --sync.->  4{{kafka}} ==> 5>phoenix]
-
+1(dataGenerator) --> 2[mysql] -.-> 3((flinkCDC)) --sync.->  4{{kafka}} ==> 5>phoenix] ==> 6[hbase]
+4 --> 7[doris]
 ```
 
 ```sql
