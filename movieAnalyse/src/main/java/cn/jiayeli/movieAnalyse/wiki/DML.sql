@@ -138,5 +138,3 @@ PROPERTIES (
 "replication_num" = "1"
 );
 
-
-

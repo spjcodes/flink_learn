@@ -133,7 +133,8 @@ public class UserMovieRatingInfoStream {
                     @Override
                     public String map(Tuple3<UserModule, RatingModule, MovieModule> value) throws Exception {
                         logger.info("mysql sink info:\t" + "[ts:_" + System.currentTimeMillis() + "\tcount: " + ++count + "]");
-                        return gson.toJson(value);
+                        UserMovieRatingInfoModule movieRatingInfoModule = conver2UserMovieRatingModule(value);
+                        return gson.toJson(movieRatingInfoModule);
                     }
                 })
                 .addSink(DorisSink.sink(
@@ -172,11 +173,11 @@ public class UserMovieRatingInfoStream {
                                 "videoReleaseDate = ?, IMDbURL = ?, `type` = ?, rating = ?, `timestamp` = ?, updateTime = now()",
                         (ps, umr) -> {
                             ps.setString(1, umr.getUserId());
-                            ps.setString(2, umr.getAge());
+                            ps.setInt(2, umr.getAge());
                             ps.setString(3, umr.getGender());
                             ps.setString(4, umr.getOccupation());
                             ps.setString(5, umr.getZipCode());
-                            ps.setString(6, umr.getMovieId());
+                            ps.setLong(6, umr.getMovieId());
                             ps.setString(7, umr.getMovieTitle());
                             ps.setString(8, umr.getReleaseDate());
                             ps.setString(9, umr.getVideoReleaseDate());
@@ -185,11 +186,11 @@ public class UserMovieRatingInfoStream {
                             ps.setInt(12, umr.getRating());
                             ps.setString(13, umr.getTimestamp());
                             ps.setString(14, umr.getUserId());
-                            ps.setString(15, umr.getAge());
+                            ps.setInt(15, umr.getAge());
                             ps.setString(16, umr.getGender());
                             ps.setString(17, umr.getOccupation());
                             ps.setString(18, umr.getZipCode());
-                            ps.setString(19, umr.getMovieId());
+                            ps.setLong(19, umr.getMovieId());
                             ps.setString(20, umr.getMovieTitle());
                             ps.setString(21, umr.getReleaseDate());
                             ps.setString(22, umr.getVideoReleaseDate());
@@ -221,7 +222,7 @@ public class UserMovieRatingInfoStream {
         UserMovieRatingInfoModule record = new UserMovieRatingInfoModule();
         record.setGender(value.f0.getGender().toString());
         record.setIMDbURL(value.f2.getIMDbURL());
-        record.setMovieId(value.f2.getMovieId());
+        record.setMovieId(Long.valueOf(value.f2.getMovieId()));
         record.setOccupation(value.f0.getOccupation().toString());
         record.setRating(value.f1.getRating());
         record.setUserId(value.f0.getUserId().toString());
@@ -229,7 +230,7 @@ public class UserMovieRatingInfoStream {
         record.setMovieTitle(value.f2.getMovieTitle());
         record.setReleaseDate(DateUtils.dataFormatByEnglish(value.f2.getReleaseDate()));
         record.setVideoReleaseDate(DateUtils.dataFormatByEnglish(value.f2.getVideoReleaseDate()));
-        record.setAge(value.f0.getAge().toString());
+        record.setAge(Integer.valueOf(value.f0.getAge()));
 
         if (!value.f2.getUnknown().equals("0")) {
             type += "unknown" + "|";

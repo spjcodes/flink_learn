@@ -61,7 +61,7 @@ public class Analyse {
 
         UserMovieRatingInfoStream userInfoStream = new UserMovieRatingInfoStream(env);
 
-//        userInfoStream.sink2kafka();
+        userInfoStream.sink2kafka();
         //可写入hive或clickhouse，doris等进行olap分析
         //userInfoStream.sink2Mysql();
         userInfoStream.sink2Doris();
@@ -127,10 +127,10 @@ public class Analyse {
 
 
     public void movieRatingTopNAnalyse(DataStreamSource<UserMovieRatingInfoModule> userMovieRatingStream) {
-        SingleOutputStreamOperator<Tuple3<String, String, Double>> movieRatingResult = userMovieRatingStream
-                .map(new MapFunction<UserMovieRatingInfoModule, Tuple3<String, String, Double>>() {
+        SingleOutputStreamOperator<Tuple3<Long, String, Double>> movieRatingResult = userMovieRatingStream
+                .map(new MapFunction<UserMovieRatingInfoModule, Tuple3<Long, String, Double>>() {
                     @Override
-                    public Tuple3<String, String, Double> map(UserMovieRatingInfoModule value) throws Exception {
+                    public Tuple3<Long, String, Double> map(UserMovieRatingInfoModule value) throws Exception {
                         return Tuple3.of(value.getMovieId(), value.getType(), Double.valueOf(value.getRating()));
                     }
                 })
@@ -145,17 +145,17 @@ public class Analyse {
                            return Tuple3.of(value1.f0, value1.f1, ComputeUtils.avg(ratingCount, raterCount));
                        }
                    })*/
-                .reduce(new RichReduceFunction<Tuple3<String, String, Double>>() {
+                .reduce(new RichReduceFunction<Tuple3<Long, String, Double>>() {
                     @Override
-                    public Tuple3<String, String, Double> reduce(Tuple3<String, String, Double> value1, Tuple3<String, String, Double> value2) throws Exception {
+                    public Tuple3<Long, String, Double> reduce(Tuple3<Long, String, Double> value1, Tuple3<Long, String, Double> value2) throws Exception {
                         return Tuple3.of(value1.f0, value1.f1, value1.f2 + value2.f2);
                     }
                 });
 
         movieRatingResult
-                .map(new MapFunction<Tuple3<String, String, Double>, Tuple3<String, String, Double>>() {
+                .map(new MapFunction<Tuple3<Long, String, Double>, Tuple3<Long, String, Double>>() {
                     @Override
-                    public Tuple3<String, String, Double> map(Tuple3<String, String, Double> value) throws Exception {
+                    public Tuple3<Long, String, Double> map(Tuple3<Long, String, Double> value) throws Exception {
                         logger.info("ts: " + System.currentTimeMillis() + "\t");
                         return value;
                     }
