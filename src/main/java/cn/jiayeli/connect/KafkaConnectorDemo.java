@@ -1,9 +1,7 @@
 package cn.jiayeli.connect;
 
 import cn.jiayeli.movieAnalyse.module.RatingModule;
-import cn.jiayeli.movieAnalyse.schema.RatingSchema;
-import cn.jiayeli.movieAnalyse.source.RatingInfoSourceFunction;
-import cn.jiayeli.movieAnalyse.util.EnvUtil;
+import cn.jiayeli.utils.EnvUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
@@ -13,6 +11,8 @@ import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsIni
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import schema.RatingSchema;
+import source.RatingInfoSourceFunction;
 
 import java.util.Properties;
 

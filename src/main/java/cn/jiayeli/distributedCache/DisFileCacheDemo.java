@@ -1,6 +1,6 @@
 package cn.jiayeli.distributedCache;
 
-import cn.jiayeli.movieAnalyse.util.EnvUtil;
+import cn.jiayeli.utils.EnvUtil;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;

@@ -1,8 +1,5 @@
 package source;
 
-import cn.jiayeli.movieAnalyse.dataGenerator.MovieSinkFunction;
-import cn.jiayeli.movieAnalyse.schema.MovieSerDer;
-import cn.jiayeli.movieAnalyse.source.MovieInfoSourceFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.common.time.Time;
 import org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackend;

@@ -1,7 +1,7 @@
 package cn.jiayeli.doris;
 
 import cn.jiayeli.doris.model.UserLog;
-import cn.jiayeli.movieAnalyse.util.EnvUtil;
+import cn.jiayeli.utils.EnvUtil;
 import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import org.apache.avro.data.Json;
@@ -24,21 +24,22 @@ public class DorisDemo {
 
 
     public static void main(String[] args) throws Exception {
+
+        StreamExecutionEnvironment env = EnvUtil.get();
+        env.setParallelism(1);
+
+        //doris source demo
         Properties properties = new Properties();
         properties.put("fenodes","node01:8030");
         properties.put("username","root");
         properties.put("password","root.123");
         properties.put("table.identifier","dblearn.movies");
 
-        StreamExecutionEnvironment env = EnvUtil.get();
-
-
-        env.setParallelism(1);
-        /*env.addSource(new DorisSourceFunction(
+        env.addSource(new DorisSourceFunction(
                         new DorisStreamOptions(properties),
                         new SimpleListDeserializationSchema()
                 )
-        ).print();*/
+        ).print();
 
         DataStreamSource<UserLog> datas = env.fromElements(
                 new UserLog(1, 1, "jim", 2),
@@ -48,6 +49,8 @@ public class DorisDemo {
                 new UserLog(5, 3, "helen", 3)
         );
 
+
+        //doris sink demo
         Properties pro = new Properties();
         pro.setProperty("format", "json");
         pro.setProperty("strip_outer_array", "true");
@@ -69,15 +72,15 @@ public class DorisDemo {
                      DorisSink.sink(
                      DorisReadOptions.builder().build(),
                      DorisExecutionOptions.builder()
-                     .setBatchSize(3)
-                     .setBatchIntervalMs(0l)
-                     .setMaxRetries(3)
-                     .setStreamLoadProp(pro).build(),
+                         .setBatchSize(3)
+                         .setBatchIntervalMs(0l)
+                         .setMaxRetries(3)
+                         .setStreamLoadProp(pro).build(),
                      DorisOptions.builder()
-                     .setFenodes("node01:8030")
-                     .setTableIdentifier("dblearn.table1")
-                     .setUsername("root")
-                     .setPassword("root.123").build()
+                         .setFenodes("node01:8030")
+                         .setTableIdentifier("dblearn.table1")
+                         .setUsername("root")
+                         .setPassword("root.123").build()
                  ));
 
         env.execute();

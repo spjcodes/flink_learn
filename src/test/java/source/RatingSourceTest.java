@@ -1,7 +1,5 @@
 package source;
 
-import cn.jiayeli.movieAnalyse.source.MovieInfoSourceFunction;
-import cn.jiayeli.movieAnalyse.source.RatingInfoSourceFunction;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import cn.jiayeli.util.EnvUtil;
 

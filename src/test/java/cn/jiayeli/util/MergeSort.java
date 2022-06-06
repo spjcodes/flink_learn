@@ -1,5 +1,8 @@
 package cn.jiayeli.util;
 
+import org.apache.flink.connector.kafka.sink.KafkaSinkBuilder;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
@@ -44,7 +47,6 @@ public class MergeSort {
     }
 
     private static void merge(Integer[] a, int left, int right) {
-
     }
 
 }

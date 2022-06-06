@@ -55,6 +55,27 @@ KafkaSource<String> source = KafkaSource.<String>builder()
 env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
 ```
 
+### doris source
+```xml
+<!-- flink-doris-connector -->
+<dependency>
+    <groupId>org.apache.doris</groupId>
+    <artifactId>flink-doris-connector-1.14_2.12</artifactId>
+    <version>1.0.3</version>
+</dependency> 
+```
+```java
+ Properties properties = new Properties();
+ properties.put("fenodes","FE_IP:8030");
+ properties.put("username","root");
+ properties.put("password","");
+ properties.put("table.identifier","db.table");
+ env.addSource(new DorisSourceFunction(
+                        new DorisStreamOptions(properties), 
+                        new SimpleListDeserializationSchema()
+                )
+        ).print();
+```
 
 ---
 ## sink

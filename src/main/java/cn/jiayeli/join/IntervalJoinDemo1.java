@@ -1,6 +1,5 @@
 package cn.jiayeli.join;
 
-import cn.jiayeli.movieAnalyse.util.EnvUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
