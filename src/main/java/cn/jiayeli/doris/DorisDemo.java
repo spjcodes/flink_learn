@@ -1,7 +1,7 @@
 package cn.jiayeli.doris;
 
 import cn.jiayeli.doris.model.UserLog;
-import cn.jiayeli.utils.EnvUtil;
+import cn.jiayeli.util.EnvUtil;
 import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import org.apache.avro.data.Json;

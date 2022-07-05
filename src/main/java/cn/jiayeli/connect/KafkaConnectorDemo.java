@@ -1,7 +1,7 @@
 package cn.jiayeli.connect;
 
 import cn.jiayeli.movieAnalyse.module.RatingModule;
-import cn.jiayeli.utils.EnvUtil;
+import cn.jiayeli.util.EnvUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;

@@ -1,7 +1,6 @@
 package cn.jiayeli.distributedCache;
 
-import cn.jiayeli.utils.EnvUtil;
-import org.apache.flink.api.common.functions.FlatMapFunction;
+import cn.jiayeli.util.EnvUtil;
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.Configuration;

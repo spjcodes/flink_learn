@@ -1,6 +1,6 @@
 package cn.jiayeli.join;
 
-import cn.jiayeli.utils.EnvUtil;
+import cn.jiayeli.util.EnvUtil;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.state.MapStateDescriptor;

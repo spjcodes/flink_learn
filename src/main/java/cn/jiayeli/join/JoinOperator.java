@@ -1,6 +1,6 @@
 package cn.jiayeli.join;
 
-import cn.jiayeli.utils.EnvUtil;
+import cn.jiayeli.util.EnvUtil;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;

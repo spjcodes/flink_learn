@@ -2,7 +2,7 @@ package source;
 
 import cn.jiayeli.movieAnalyse.module.MovieModule;
 import cn.jiayeli.movieAnalyse.module.RatingModule;
-import cn.jiayeli.utils.EnvUtil;
+import cn.jiayeli.util.EnvUtil;
 import com.mysql.cj.jdbc.Driver;
 import org.apache.flink.connector.jdbc.JdbcConnectionOptions;
 import org.apache.flink.connector.jdbc.JdbcSink;
