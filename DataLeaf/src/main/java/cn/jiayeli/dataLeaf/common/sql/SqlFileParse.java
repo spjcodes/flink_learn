@@ -19,7 +19,7 @@ public class SqlFileParse {
 
     public static List<String> parseFile2Sql(String fileName) {
 
-        logger.debug("sql parse file name: [%s]", fileName);
+        logger.debug("sql parse file name:[" + fileName + "]");
 
         if (!FileUtils.fileExists(fileName)) {
             logger.error("file:\t[" + fileName + "] dot exists !!! please check the sql file path");
@@ -33,12 +33,23 @@ public class SqlFileParse {
         try {
 
             List<String> lines = Files.readAllLines(Paths.get(fileName));
-
+            boolean nextLineIsComment = false;
             for (String line : lines) {
                 line = line.trim();
                 // --
                 if (line.startsWith(FileConstant.COMMENT_SYMBOL))
                     continue;
+                // /* */
+                if (line.startsWith(FileConstant.MULTI_COMMENT_START_SYMBOL)) {
+                    nextLineIsComment = true;
+                    continue;
+                } else if(line.endsWith(FileConstant.MULTI_COMMENT_END_SYMBOL)) {
+                    nextLineIsComment = false;
+                    continue;
+                }
+                if (nextLineIsComment) {
+                    continue;
+                }
                 // ;
                 strBuild.append(line).append(FileConstant.LINE_FEED);
                 if (line.endsWith(FileConstant.SEMICOLON)) {

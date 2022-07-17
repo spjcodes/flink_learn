@@ -46,4 +46,12 @@ public class ExecutorTestCase {
         statementSet.addInsertSql("select user_id, behavior, count(item_id) from KafkaTable group by user_id, behavior");*/
 //        tEnv.executeSql("select user_id, behavior, count(1) from KafkaTable group by user_id, behavior").print();
     }
+
+    @Test
+    public void sqlExecutorClassCase() {
+        String filePath = "src/test/resources/sqlFile.sql";
+        SqlExecutor.builder()
+                .setEnv(EnvUtils.getStreamTableEnv())
+                .execute(SqlFileParse.parseFile2Sql(filePath));
+    }
 }

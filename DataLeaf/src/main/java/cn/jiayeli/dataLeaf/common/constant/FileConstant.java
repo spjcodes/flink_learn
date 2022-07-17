@@ -5,6 +5,10 @@ import java.util.regex.Pattern;
 public class FileConstant {
     // --
     public static final String COMMENT_SYMBOL = "--";
+    // /*
+    public static final String MULTI_COMMENT_START_SYMBOL = "/*";
+    // */
+    public static final String MULTI_COMMENT_END_SYMBOL = "*/";
     // ;
     public static final String SEMICOLON = ";";
     // \n
