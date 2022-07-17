@@ -4,14 +4,11 @@ import org.apache.flink.table.api.*;
 
 import static org.apache.flink.table.api.Expressions.$;
 
-public class TableEnvCreateDemo {
+public class TableEnvCreateByEnvSettingFile {
 
     public static void main(String[] args) {
-//        1.
-/*        Configuration config = new Configuration();
-        TableEnvironment tableEnv = TableEnvironment.create(config);*/
+//        1. use config file create a table environment
 
-        //2.
         EnvironmentSettings envSetting = EnvironmentSettings
                 .newInstance()
 //                .inBatchMode()

@@ -1,6 +1,7 @@
 package cn.jiayeli.dataLeaf.common.sql;
 
 import cn.jiayeli.dataLeaf.common.constant.FileConstant;
+import cn.jiayeli.dataLeaf.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,11 @@ public class SqlFileParse {
 
         logger.debug("sql parse file name: [%s]", fileName);
 
+        if (!FileUtils.fileExists(fileName)) {
+            logger.error("file:\t[" + fileName + "] dot exists !!! please check the sql file path");
+            return null;
+        }
+
         List<String> sqlList = new ArrayList<String>();
 
         StringBuilder strBuild = new StringBuilder();
@@ -36,15 +42,16 @@ public class SqlFileParse {
                 // ;
                 strBuild.append(line).append(FileConstant.LINE_FEED);
                 if (line.endsWith(FileConstant.SEMICOLON)) {
-                    sqlList.add(strBuild.toString());
+                    String sql = strBuild.toString();
+                    //delete last ';'
+                    sqlList.add(sql.substring(0, sql.length()-2));
                     logger.debug("parse sql is: [%s]", strBuild.toString());
                     strBuild.setLength(0);
                 }
             }
         } catch (IOException e) {
             logger.error("sqlFile parse error!!!");
-/*            logger.error("message ====" + e.getCause().getMessage());
-            logger.error(Arrays.toString(e.getStackTrace()));*/
+            logger.error(Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }
 
@@ -52,6 +59,10 @@ public class SqlFileParse {
             logger.error("file have sql not end!!! by sql:\n" + strBuild.toString());
             strBuild.setLength(0);
         }
+
         return sqlList;
     }
+
+
+
 }
