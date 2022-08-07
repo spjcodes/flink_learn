@@ -4,6 +4,10 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.junit.Test;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -204,6 +208,16 @@ public class Te {
             treeMap.put(value.f1, value);
         });
         return addSuccessful.get();
+    }
+
+    @Test
+    public void tsTest() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        System.out.println(new Date().getTime());
+        String dateStr = sdf.format(new Date());
+        System.out.println(System.nanoTime());
+        System.out.println(Calendar.getInstance().getTimeInMillis());
+
     }
 
 }

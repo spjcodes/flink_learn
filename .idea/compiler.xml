@@ -9,11 +9,20 @@
         <outputRelativeToContentRoot value="true" />
         <module name="movieAnalyse" />
         <module name="DataLeaf" />
+        <module name="web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="common" target="11" />
       <module name="dataGenerate" target="11" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="DataLeaf" options="-parameters" />
+      <module name="FLINK_LEARN" options="" />
+      <module name="movieAnalyse" options="-parameters" />
+      <module name="web" options="-parameters" />
+    </option>
   </component>
 </project>

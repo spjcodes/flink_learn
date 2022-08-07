@@ -8,7 +8,9 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 public class EnvUtils {
 
     public static StreamTableEnvironment getStreamTableEnv() {
-        return StreamTableEnvironment.create(getStreamEnv());
+        StreamExecutionEnvironment env = getStreamEnv();
+        env.setParallelism(10);
+        return StreamTableEnvironment.create(env);
     }
 
     public static  StreamExecutionEnvironment getStreamEnv() {
