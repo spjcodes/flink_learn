@@ -1,6 +1,0 @@
-${AnsiBackground.BRIGHT_BLACK}${AnsiColor.BRIGHT_YELLOW}${AnsiStyle.BOLD}
-
-
-
-                                        ^^^^^^^^^^^^^^^^^^^^^^^^ springboot ${spring-boot.formatted-version} ^^^^^^^^^^^^^^^^^^^^^^^^${AnsiColor.GREEN}${AnsiBackground.BRIGHT_BLACK}
-                                                      ${application.title}_${application.version}
