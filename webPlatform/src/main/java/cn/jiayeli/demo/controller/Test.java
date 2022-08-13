@@ -15,7 +15,7 @@ public class Test {
     public String test(Model module) {
         System.out.println("hello test man(:");
         module.addAttribute("user", "pjs");
-        return "test";
+        return "index";
 
     }
 }
