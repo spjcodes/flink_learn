@@ -51,7 +51,7 @@ public class SqlExecutor {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-           result.print();
+//           result.print();
         }
 
     }
@@ -84,7 +84,9 @@ public class SqlExecutor {
     }
 
     public static void processResult(TableResult result) {
-        result.print();
+        if (result != null) {
+            result.print();
+        }
     }
 
     public static SqlExecutor builder() {

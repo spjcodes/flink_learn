@@ -1,4 +1,4 @@
-package cn.jiayeli.tableApi.ddl;
+package cn.jiayeli.tableAndSql.ddl;
 
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.TableEnvironment;

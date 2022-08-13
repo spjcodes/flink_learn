@@ -1,3 +1,4 @@
+set "sql-client.verbose" = true;
 CREATE TABLE userBehavior (
                               `user_id` BIGINT,
                               `item_id` BIGINT,

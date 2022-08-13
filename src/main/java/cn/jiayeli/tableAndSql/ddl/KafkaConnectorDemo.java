@@ -1,4 +1,4 @@
-package cn.jiayeli.tableApi.ddl;
+package cn.jiayeli.tableAndSql.ddl;
 
 import cn.jiayeli.util.EnvUtil;
 import com.google.gson.Gson;
@@ -6,15 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
-import org.apache.flink.streaming.api.functions.source.SourceFunction;
-import org.apache.flink.table.api.*;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;

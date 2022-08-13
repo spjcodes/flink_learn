@@ -19,9 +19,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="DataLeaf" options="-parameters" />
+      <module name="DataLeaf" options="" />
       <module name="FLINK_LEARN" options="" />
-      <module name="movieAnalyse" options="-parameters" />
+      <module name="movieAnalyse" options="" />
       <module name="web" options="-parameters" />
     </option>
   </component>

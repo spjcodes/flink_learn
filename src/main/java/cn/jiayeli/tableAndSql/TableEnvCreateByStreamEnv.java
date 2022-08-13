@@ -1,4 +1,4 @@
-package cn.jiayeli.tableApi;
+package cn.jiayeli.tableAndSql;
 
 import cn.jiayeli.util.EnvUtil;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -12,8 +12,6 @@ import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamStatementSet;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.operations.QueryOperation;
-import org.apache.flink.table.types.AtomicDataType;
-import org.apache.flink.table.types.DataType;
 
 import static org.apache.flink.table.api.Expressions.$;
 

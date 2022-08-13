@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SqlFileParse {
 
-    private static Logger logger = LoggerFactory.getLogger(SqlFileParse.class);
+    private static final Logger logger = LoggerFactory.getLogger(SqlFileParse.class);
 
     public static List<String> parseFile2Sql(String fileName) {
 

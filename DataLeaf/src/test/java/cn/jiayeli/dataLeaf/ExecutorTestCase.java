@@ -38,7 +38,8 @@ public class ExecutorTestCase {
                 "    'properties.group.id' = 'test1Group',\n" +
                 "    'scan.startup.mode' = 'latest-offset',\n" +
                 "    'format' = 'json'\n" +
-                ")");
+                ")"
+        );
 
        tEnv.executeSql("select * from kafkaTable").print();
 /*         StreamStatementSet statementSet = tEnv.createStatementSet();

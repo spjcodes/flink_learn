@@ -1,4 +1,4 @@
-package cn.jiayeli.tableApi;
+package cn.jiayeli.tableAndSql;
 
 import org.apache.flink.table.api.*;
 import org.apache.flink.connector.datagen.table.DataGenConnectorOptions;
