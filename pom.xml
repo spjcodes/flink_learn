@@ -12,7 +12,6 @@
     <modules>
         <module>movieAnalyse</module>
         <module>DataLeaf</module>
-        <module>web</module>
     </modules>
 
     <properties>
@@ -280,10 +279,14 @@
             <!--            <scope>provided</scope>-->
         </dependency>
 
-        <dependency>
+       <!-- <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
+            <version>${loombo.version}</version>
+        </dependency>-->
+
+
+
 
     </dependencies>
 

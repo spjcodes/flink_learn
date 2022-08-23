@@ -8,8 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="movieAnalyse" />
-        <module name="webPlatform" />
         <module name="DataLeaf" />
+        <module name="webPlatform" />
+        <module name="webPlateform" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -24,6 +25,7 @@
       <module name="FLINK_LEARN" options="" />
       <module name="movieAnalyse" options="" />
       <module name="web" options="-parameters" />
+      <module name="webPlateform" options="-parameters" />
       <module name="webPlatform" options="-parameters" />
     </option>
   </component>
