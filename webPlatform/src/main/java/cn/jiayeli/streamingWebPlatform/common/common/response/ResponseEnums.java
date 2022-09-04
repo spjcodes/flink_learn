@@ -4,9 +4,9 @@ public enum ResponseEnums implements CommonResponse {
 
     SUCCESS(200000, ""),
     TIMEOUT(300000, "timeout"),
+    PARAMETER_ERROR(400000, "parameter error"),
     UNKNOWN_ERROR(500000, "unknown error.")
     ;
-
 
     private int code;
 

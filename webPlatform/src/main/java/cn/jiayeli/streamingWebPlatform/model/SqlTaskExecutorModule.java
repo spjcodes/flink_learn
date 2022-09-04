@@ -1,15 +1,17 @@
 package cn.jiayeli.streamingWebPlatform.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
+@Validated
 public class SqlTaskExecutorModule implements Serializable {
 
+    @NotBlank(message = "task name dot is null")
     private String taskName;
 
+    @NotBlank(message = "sqlScript dot is null")
     private String sqlScript;
 
     private String clusterId;

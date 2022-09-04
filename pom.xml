@@ -278,12 +278,18 @@
             <version>${hive.version}</version>
             <!--            <scope>provided</scope>-->
         </dependency>
-
-       <!-- <dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${loombo.version}</version>
-        </dependency>-->
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- <dependency>
+             <groupId>org.projectlombok</groupId>
+             <artifactId>lombok</artifactId>
+             <version>${loombo.version}</version>
+         </dependency>-->
 
 
 
