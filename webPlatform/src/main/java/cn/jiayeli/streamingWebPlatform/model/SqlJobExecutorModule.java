@@ -6,10 +6,10 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Validated
-public class SqlTaskExecutorModule implements Serializable {
+public class SqlJobExecutorModule implements Serializable {
 
-    @NotBlank(message = "task name dot is null")
-    private String taskName;
+    @NotBlank(message = "jobName name dot is null")
+    private String jobName;
 
     @NotBlank(message = "sqlScript dot is null")
     private String sqlScript;
@@ -22,11 +22,11 @@ public class SqlTaskExecutorModule implements Serializable {
 
     private String taleName;
 
-    public SqlTaskExecutorModule() {
+    public SqlJobExecutorModule() {
     }
 
-    public SqlTaskExecutorModule(String taskName, String sqlScript, String clusterId, String module, String dbName, String taleName) {
-        this.taskName = taskName;
+    public SqlJobExecutorModule(String taskName, String sqlScript, String clusterId, String module, String dbName, String taleName) {
+        this.jobName = taskName;
         this.sqlScript = sqlScript;
         this.clusterId = clusterId;
         this.module = module;
@@ -34,12 +34,12 @@ public class SqlTaskExecutorModule implements Serializable {
         this.taleName = taleName;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getJobName() {
+        return jobName;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 
     public String getSqlScript() {

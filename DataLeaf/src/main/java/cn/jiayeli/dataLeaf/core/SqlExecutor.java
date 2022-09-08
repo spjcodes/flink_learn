@@ -1,6 +1,8 @@
 package cn.jiayeli.dataLeaf.core;
 
+import cn.jiayeli.dataLeaf.common.sql.SqlFileParse;
 import cn.jiayeli.dataLeaf.enums.OperationTypeEnum;
+import com.ibm.icu.impl.Assert;
 import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.api.internal.TableEnvironmentInternal;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SqlExecutor {
+
     private static final Logger logger = LoggerFactory.getLogger(SqlExecutor.class);
     private static TableResult result = null;
     private TableEnvironmentInternal tEnvInternal;
@@ -42,7 +45,6 @@ public class SqlExecutor {
                 default:
                     result = tEnvInternal.executeInternal(operation);
                     break;
-
             }
 
             processResult(result);
@@ -56,6 +58,15 @@ public class SqlExecutor {
 
     }
 
+    public  void execute(String sqlScript) {
+        assert sqlScript != null;
+        List<String> sqlList = SqlFileParse.parseSqlScripts2List(sqlScript);
+        if (sqlList!=null && sqlList.size()>0) {
+            execute(sqlList);
+        } else {
+            logger.error("sqlScript is null!!");
+        }
+    }
     private void setConfig(Operation operation) {
         SetOperation setOperation = (SetOperation) operation;
         if (!setOperation.getKey().isEmpty() && !setOperation.getValue().isEmpty()) {

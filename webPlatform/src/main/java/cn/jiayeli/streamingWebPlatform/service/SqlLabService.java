@@ -1,13 +1,13 @@
 package cn.jiayeli.streamingWebPlatform.service;
 
-import cn.jiayeli.streamingWebPlatform.model.SqlTaskExecutorModule;
+import cn.jiayeli.streamingWebPlatform.model.SqlJobExecutorModule;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public interface SqlLabService {
 
-        public boolean executor(SqlTaskExecutorModule sqlTask);
+        public boolean executor(SqlJobExecutorModule sqlTask);
 
-        void executorSqlTask(SqlTaskExecutorModule sqlTask);
+        void executorSqlTask(SqlJobExecutorModule sqlTask);
 }

@@ -1,9 +1,9 @@
 set "sql-client.verbose" = true;
 CREATE TABLE userBehavior (
-                              `user_id` BIGINT,
-                              `item_id` BIGINT,
-                              `behavior` STRING,
-                              `ts` TIMESTAMP(3) METADATA FROM 'timestamp'
+    `user_id` BIGINT,
+    `item_id` BIGINT,
+    `behavior` STRING,
+    `ts` TIMESTAMP(3) METADATA FROM 'timestamp'
 ) WITH (
     'connector' = 'kafka',
     'topic' = 'user_behavior',

@@ -26,44 +26,50 @@ public class SqlFileParse {
             return null;
         }
 
-        List<String> sqlList = new ArrayList<String>();
 
-        StringBuilder strBuild = new StringBuilder();
-
+        List<String> lines = null;
         try {
-
-            List<String> lines = Files.readAllLines(Paths.get(fileName));
-            boolean nextLineIsComment = false;
-            for (String line : lines) {
-                line = line.trim();
-                // --
-                if (line.startsWith(FileConstant.COMMENT_SYMBOL))
-                    continue;
-                // /* */
-                if (line.startsWith(FileConstant.MULTI_COMMENT_START_SYMBOL)) {
-                    nextLineIsComment = true;
-                    continue;
-                } else if(line.endsWith(FileConstant.MULTI_COMMENT_END_SYMBOL)) {
-                    nextLineIsComment = false;
-                    continue;
-                }
-                if (nextLineIsComment) {
-                    continue;
-                }
-                // ;
-                strBuild.append(line).append(FileConstant.LINE_FEED);
-                if (line.endsWith(FileConstant.SEMICOLON)) {
-                    String sql = strBuild.toString();
-                    //delete last ';'
-                    sqlList.add(sql.substring(0, sql.length()-2));
-                    logger.debug("parse sql is: [%s]", strBuild.toString());
-                    strBuild.setLength(0);
-                }
-            }
+            lines = Files.readAllLines(Paths.get(fileName));
         } catch (IOException e) {
             logger.error("sqlFile parse error!!!");
             logger.error(Arrays.toString(e.getStackTrace()));
-            e.printStackTrace();
+        }
+
+        assert lines != null;
+        return  parseSqlLines(lines);
+    }
+
+    private static List<String> parseSqlLines(List<String> lines) {
+
+        List<String> sqlList = new ArrayList<String>();
+        StringBuilder strBuild = new StringBuilder();
+        boolean nextLineIsComment = false;
+
+        for (String line : lines) {
+            line = line.trim();
+            // --
+            if (line.startsWith(FileConstant.COMMENT_SYMBOL))
+                continue;
+            // /* */
+            if (line.startsWith(FileConstant.MULTI_COMMENT_START_SYMBOL)) {
+                nextLineIsComment = true;
+                continue;
+            } else if(line.endsWith(FileConstant.MULTI_COMMENT_END_SYMBOL)) {
+                nextLineIsComment = false;
+                continue;
+            }
+            if (nextLineIsComment) {
+                continue;
+            }
+            // ;
+            strBuild.append(line).append(FileConstant.LINE_FEED);
+            if (line.endsWith(FileConstant.SEMICOLON)) {
+                String sql = strBuild.toString();
+                //delete last ';'
+                sqlList.add(sql.substring(0, sql.length()-2));
+                logger.debug("parse sql is: [%s]", strBuild.toString());
+                strBuild.setLength(0);
+            }
         }
 
         if (strBuild.length() > 0) {
@@ -72,6 +78,14 @@ public class SqlFileParse {
         }
 
         return sqlList;
+    }
+
+    public static List<String> parseSqlScripts2List(String sqlScripts) {
+        if (!sqlScripts.isBlank()) {
+            List<String> sqlLines = List.of(sqlScripts.split("\n"));
+            return parseSqlLines(sqlLines);
+        }
+        return null;
     }
 
 
