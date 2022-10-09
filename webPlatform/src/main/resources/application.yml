@@ -1,8 +1,0 @@
-spring:
-  thymeleaf:
-    cache: false
-    mode: HTML
-    prefix: classpath:/templates/
-    suffix: .html
-  mvc:
-    static-path-pattern: /static/**
